@@ -1,0 +1,8 @@
+Une heat map, ou heatmap (terme anglais signifiant littéralement carte de chaleur, ou carte thermique), carte de fréquentation en Français, est une représentation graphique de données statistiques qui fait correspondre à l'intensité d'une grandeur variable une gamme de tons ou un nuancier de couleurs sur une matrice à deux dimensions (qui peut elle-même représenter une zone géographique). Ce procédé permet de donner à des données un aspect visuel plus facile à saisir qu'un tableau de statistiques.
+
+Ces heat maps peuvent servir de cartographie d’activité, notamment pour montrer la fréquence de passage de personnes (par exemple, des cyclistes ou des clients) ou d’événements (par exemple, des délits ou des pluies) dans une zone donnée. Une heat map peut également servir à mettre en exergue les parties d'une page Internet le plus souvent balayées par le regard de ses lecteurs.
+
+Application:
+Les heatmaps ou cartes de chaleur sont des outils de web-marketing qui permettent de restituer le parcours des visiteurs d’un site web par l’intermédiaire de leurs clics.
+
+Ainsi, en analysant une page de son site e-commerce, on peut ainsi voir s’afficher en superposition de la page ciblée, les zones de clics, les clics précis, le pourcentage des clics sur chaque élément, ou encore la profondeur de scroll (lorsque l’internaute descend au-dessous de la ligne de flottaison) dans une page donnée.

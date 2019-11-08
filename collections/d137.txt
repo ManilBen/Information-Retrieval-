@@ -1,0 +1,12 @@
+En mathématiques, la distribution de Bernoulli ou loi de Bernoulli, du nom du mathématicien suisse Jacques Bernoulli, est une distribution discrète de probabilité, qui prend la valeur 1 avec la probabilité p et 0 avec la probabilité q = 1 – p.
+
+L'espérance mathématique d'une variable aléatoire de Bernoulli vaut p et la variance vaut p(1 – p).
+
+Le kurtosis tend vers l'infini pour des valeurs hautes et basses de p, mais pour p = 1/2 la distribution de Bernoulli a un kurtosis plus bas que toute autre distribution, c’est-à-dire 1. 
+Une variable aléatoire suivant la loi de Bernoulli est appelée variable de Bernoulli.
+
+La loi de Bernoulli est la loi de la variable aléatoire qui code le résultat d'une épreuve qui n'admet que deux issues (épreuve de Bernoulli) : 1 pour « succès », 0 pour « échec », ou quel que soit le nom qu'on donne aux deux issues d'une telle expérience aléatoire.
+
+Plus généralement, toute application mesurable à valeur dans {0,1} est une variable de Bernoulli. Autrement dit, toute fonction indicatrice d'un évènement suit une loi de Bernoulli.
+
+Réciproquement, pour toute variable de Bernoulli X définie sur (O, A, P), on peut trouver un ensemble mesurable B tel que X et la fonction indicatrice de B soient presque sûrement égales : toute variable de Bernoulli est presque sûrement égale à une fonction indicatrice.

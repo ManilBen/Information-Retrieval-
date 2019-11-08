@@ -1,0 +1,8 @@
+En développant ses idées sur les conséquences du principe d’équivalence, Einstein aboutit à une nouvelle vision de la gravitation qui devait remplacer celle d’Isaac Newton : la relativité générale. L’aspect le plus important de cette théorie est la disparition du concept de force de gravitation.
+
+La courbure de l’espace-temps
+Pour Einstein, le mouvement d’un corps n’est pas déterminé par des forces, mais par la configuration de l’espace-temps. Par exemple, d’après Newton la Terre tourne autour du Soleil car celui-ci exerce une force gravitationnelle sur notre planète. Pour Einstein, c’est une perturbation de l’espace-temps introduite par la masse du Soleil qui est à l’origine du mouvement de la Terre.
+
+Pour mieux comprendre cette idée, faisons appel à une analogie à deux dimensions. L’espace, en relativité générale, peut être comparé à une sorte de tissu élastique. La présence d’une étoile peut être simulée en posant une pierre sur ce tissu. Celle-ci s’enfonce dans le tissu, le déforme et y crée une dépression.
+
+Que se passe-t-il lorsqu’un corps plus petit passe à proximité de l’étoile ? Faisons rouler une bille sur le tissu : la trajectoire est d’abord une simple ligne droite, mais lorsque la bille passe à proximité de la pierre, elle pénètre légèrement dans la dépression. Elle est alors déviée de sa ligne droite et sa trajectoire se courbe. Sur ce tissu élastique, le mouvement de la bille n’est pas dicté par une force mais par la forme de l’espace ou plus précisément, par la courbure de celui-ci.

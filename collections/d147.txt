@@ -1,0 +1,9 @@
+La théorie de la gravitation de Newton est principalement décrite dans notre dossier sur la relativité générale, mais il est évidemment impossible de parler de la mécanique newtonienne sans aborder ici cette théorie.
+
+En effet, l'un des concepts clés de la mécanique newtonienne est la « force », notion héritée de la statique (science qui étudie l'équilibre des corps immobiles) et formalisée par Newton. Or, l'exemple de force le plus immédiat dont il disposait, et qu'il utilisa naturellement, est celui de la force gravitationnelle. Simultanément, Newton réussit ainsi à mathématiser les lois du mouvement et celle qui décrit la gravitation, validant les deux par la même occasion.
+
+Les forces sont primordiales dans l'œuvre de Newton, car ce sont elles qui créent la dynamique. Avec Galilée, le temps avait fait son entrée dans la description du mouvement et était née la cinématique. Grâce à Newton, on assista à la naissance de la dynamique, celle-ci se distinguant de la première par le fait que le mouvement y est considéré en même temps que ses causes, ou plutôt les causes de ses modifications. En effet, pour Newton, en accord avec le principe d'inertie de Galilée et contre l'avis d'Aristote, les forces ne créent pas le mouvement, mais le modifient, « l'inertie » (ou « masse inertielle ») étant la résistance naturelle des corps face aux forces. De plus, pour pouvoir énoncer ses « trois principes de la mécanique » dans ses Principes mathématiques de philosophie naturelle, publiés en 1686, Newton dut également inventer la « quantité de mouvement » et des conceptions de l'espace et du temps. Cependant, même si ces conceptions furent finalement remises en cause plus de deux siècles plus tard par Einstein (grâce à des études, postérieures à Newton, sur les propriétés de la lumière), la quantité de mouvement évolua à peine après l'époque de Newton.
+
+
+
+

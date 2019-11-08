@@ -1,0 +1,5 @@
+Dans les représentations graphiques de données statistiques, la boîte à moustaches (aussi appelée diagramme en boîte, boîte de Tukey2ou box-and-whisker plot, plus simplement box plot en anglais) est un moyen rapide de figurer le profil essentiel d'une série statistique quantitative. Elle a été inventée en 1977 par John Tukey, mais peut faire l'objet de certains aménagements selon les utilisateurs. Son nom est la traduction de Box and Whiskers Plot.
+La boîte à moustaches résume seulement quelques indicateurs de position du caractère étudié (médiane, quartiles, minimum, maximum ou déciles). Ce diagramme est utilisé principalement pour comparer un même caractère dans deux populations de tailles différentes.
+
+Il s'agit de tracer un rectangle allant du premier quartile au troisième quartile et coupé par la médiane. Ce rectangle suffit pour le diagramme en boîte. On ajoute alors des segments aux extrémités menant jusqu'aux valeurs extrêmes, ou jusqu'aux premier et neuvième déciles ({\displaystyle D_{1}/D_{9}}{\displaystyle D_{1}/D_{9}}), voire aux 5e et 95e centiles. On parle alors de diagramme en boîte à moustaches ou de diagramme à pattes.
+

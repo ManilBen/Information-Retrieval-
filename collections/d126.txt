@@ -1,0 +1,131 @@
+Les contrôleurs
+Nous avons vu le cycle d'une requête depuis son arrivée, son traitement par les routes et sa réponse avec des vues qui peuvent être boostées par Blade. Avec tous ces éléments vous pourriez très bien réaliser un site web complet mais Laravel offre encore bien des outils performants que je vais vous présenter.
+
+Pour bien organiser son code dans une application Laravel il faut bien répartir les tâches. Dans les exemples vus jusqu'à présent j'ai renvoyé une vue à partir d'une route, vous ne ferez jamais cela dans une application réelle (même si personne ne vous empêchera de le faire ! ). Les routes sont juste un système d'aiguillage pour trier les requêtes qui arrivent. Mais alors qui s'occupe de la suite ? Et bien ce sont les contrôleurs, le sujet de ce chapitre.
+
+Les contrôleurs
+Rôle
+La tâche d'un contrôleur est de réceptionner une requête (qui a déjà été triée par une route) et de définir la réponse appropriée, rien de moins et rien de plus. Voici une illustration du processus :
+
+Traitement de la requête par un contrôleur
+Traitement de la requête par un contrôleur
+Constitution
+Pour créer un contrôleur nous allons utiliser Artisan, la boîte à outils de Laravel. Dans la console entrez cette commande :
+
+php artisan make:controller WelcomeController
+Si tout se passe bien vous allez trouver le contrôleur ici :
+
+Le contrôleur créé
+Le contrôleur créé
+Avec ce code :
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class WelcomeController extends Controller
+{
+    //
+}
+Vous allez ajouter la méthode index  :
+
+<?php 
+...
+class WelcomeController extends Controller
+{
+    public function index()
+    {
+        return view('welcome');
+    }
+}
+Analysons un peu ce code :
+
+On trouve en premier l'espace de nom,
+
+le contrôleur hérite de la classe Controller qui se trouve dans le même dossier et qui permet de factoriser des actions communes à tous les contrôleurs,
+
+on trouve enfin une méthode index qui renvoie quelque chose que maintenant vous connaissez : une vue, en l'occurrence "welcome" dont nous avons déjà parlé. Donc si j'appelle cette méthode je retourne la vue "welcome" au client.
+
+Liaison avec les routes
+Maintenant la question qu'on peut se poser est : comment s'effectue la liaison entre les routes et les contrôleurs ? Ouvrez le fichier des routes et entrez ce code :
+
+<?php
+Route::get('/', 'WelcomeController@index');
+Maintenant avec l'url de base vous devez retrouver la page d'accueil de Laravel :
+
+
+Page d'accueil
+Voici une visualisation de la liaison entre la route et le contrôleur :
+
+
+Liaison entre la route et le contrôleur
+On voit qu'au niveau de la route il suffit de désigner le nom du contrôleur et le nom de la méthode.
+
+Si vous êtes attentif au code vous avez sans doute remarqué qu'au niveau de la route on ne spécifie pas l'espace de noms du contrôleur, on peut légitimement se demander comment on le retrouve. Laravel nous simplifie la syntaxe en ajoutant automatiquement l'espace de nom .
+
+Si vous devez placer dans un autre espace de noms vos contrôleurs il faut intervenir sur la variable $namespace  dans le fichier App\Providers\RouteServiceProvider :
+
+<?php
+protected $namespace = 'App\Http\Controllers';
+Cette valeur constitue la base de référence des espaces de noms.
+
+Route nommée
+De la même manière que nous pouvons nommer une route classique on peut aussi donner un nom à une route qui pointe une méthode de contrôleur :
+
+<?php
+Route::get('/', ['uses' => 'WelcomeController@index', 'as' => 'home']);
+Ici on nomme home la route vers la méthode index du contrôleur ﻿﻿WelcomeController pour l'URL de base.
+
+Utilisation d'un contrôleur
+Voyons maintenant un exemple pratique de mise en œuvre d'un contrôleur. On va conserver notre exemple avec les articles mais maintenant traité avec un contrôleur. On conserve le même template et les mêmes vues :
+
+
+Le template et les vues
+On va créer un contrôleur (entraînez-vous à utiliser Artisan) pour les articles :
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class ArticleController extends Controller
+{
+
+    public function show($n)
+    {
+        return view('article')->with('numero', $n);
+    }
+
+}
+
+Le dossier des contrôleurs
+Dans ce contrôleur on a une méthode show chargée de générer la vue. Il ne nous reste plus qu'à créer la route :
+
+<?php
+Route::get('article/{n}', 'ArticleController@show')->where('n', '[0-9]+');
+Voici une illustration du fonctionnement avec un contrôleur :
+
+ 
+
+Les articles avec un contrôleur
+Notez qu'on pourrait utiliser la méthode "magique" pour la transmission du paramètre à la vue :
+
+<?php
+return view('article')->withNumero($n);
+En résumé
+Les contrôleurs servent à réceptionner les requêtes triées par les routes et à fournir une réponse au client.
+
+Artisan permet de créer facilement un contrôleur.
+
+Il est facile d'appeler une méthode de contrôleur à partir d'une route.
+
+On peut nommer une route qui pointe vers une méthode de contrôleur.

@@ -1,0 +1,4 @@
+Test de la boîte noire:
+Système, Services et configuration:
+Pour les systèmes Linux, Microsoft Windows (ou autre), la configuration de ceux-là s'avère plus que primordiale. La configuration du réseau du système, de ses services, de la façon dont il réagit face aux événements. Pour les systèmes Windows, la configuration est beaucoup plus restreinte car le code du système ne peut être modifié sans être dans l'illégalité.
+De nouvelles failles sont trouvées tous les jours dans les systèmes d'exploitation ; on parle souvent de failles applicatives, mais on en trouve également dans des services exploitant le réseau.

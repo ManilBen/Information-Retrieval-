@@ -1,0 +1,9 @@
+Nous considérons le problème de la détection de la présence de données cachées dans les images bitmap en couleurs. Comme simple
+Remplacement LSB, Correspondance LSB (qui incrémente ou décroît aléatoirement les pixels de couverture pour intégrer le
+données dans les bits les moins significatifs) est attrayante car elle est extrêmement simple à mettre en œuvre. Il s'est avéré beaucoup
+plus difficile à détecter que le remplacement LSB car il n'introduit pas les mêmes asymétries dans le
+image. Nous développons nos techniques récemment développées pour la détection de LSB Matching dans des images en niveaux de gris
+dans le cas de couleur. Tout ne se passe pas bien, mais le résultat final est une détection nettement améliorée.
+spécialement pour les images de couverture qui ont été stockées sous forme de fichiers JPEG, même si elles ont été ultérieurement rééchantillonnées. Évaluation de
+La statistique Steganalysis est réalisée à l'aide d'un projet Steganalysis distribué. Parce que l’évaluation de la fiabilité des
+détecteurs pour LSB Matching est limité, nous commençons par une revue des détecteurs connus auparavant.

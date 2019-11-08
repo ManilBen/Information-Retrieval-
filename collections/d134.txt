@@ -1,0 +1,11 @@
+En statistique, un histogramme est une représentation graphique permettant de représenter la répartition d'une variable continue en la représentant avec des colonnes verticales.
+L’histogramme est un moyen rapide pour étudier la répartition d’une variable. Il peut être, en particulier utilisé en gestion de la qualité lorsque les données sont obtenues lors d’une fabrication.
+
+Exemples :
+
+diamètre d’un arbre après usinage,
+dureté d’une série de pièces après un traitement thermique,
+concentration d’un élément dans la composition d’alliages produit par une fonderie,
+masse de préparation alimentaire dans une boîte de conserve,
+répartition de la luminosité des pixels dans une photographie.
+L’histogramme est un outil « visuel » qui permet de détecter certaines anomalies ou de faire un diagnostic avant d’engager une démarche d’amélioration. Utilisé dans ce cadre, l’histogramme est un outil « qualitatif ». Pour pouvoir bien mener l’étude de la dispersion d’une variable à l’aide d’un ou de plusieurs histogrammes, il faut avoir une bonne connaissance de la variable étudiée. De même, il faut connaître les conditions de collecte des données : fréquence de mesure, outil de mesure utilisé, possibilité de mélange de lots, possibilité de tri etc.

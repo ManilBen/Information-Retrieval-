@@ -1,0 +1,9 @@
+On peut définir les TIC comme un ensemble d’activités qui facilitent, grâce à des moyens électroniques, la saisie, le stockage, le traitement, la transmission et l’affichage de l’information.Le présent document utilise l’expression TIC pour englober la production de matériel et de logiciel informatique ainsi que les moyens de transfert de l’information sous une forme numérique. L’expression englobe également diverses formes de communication à faible coût. L’effet plus profond des TIC consistera à améliorer l’efficacité et à atteindre la production régulière de biens et services, dans tous les secteurs. Les écoles utilisent les technologies comme vecteur d’information et de communication CONTENU
+Apport d'une culture de base sur l'informatique, histoire et technique.
+Initiation aux réseaux et leurs usages ; les services d'Internet.
+Connaissance de ses fonctions de base avec le traitement de texte, débouchant sur la réalisation d'un mémoire.
+Initiation aux fonctions avancées du traitement de texte, premier pas vers le multimédia en intégrant des images à un texte.
+Initiation au Multimédia et à l'Écriture multimédia avec un logiciel de PAO enrichie par des images, des sons et des vidéos.
+Travail sur les fonctions avancées de PowerPoint par la réalisation de présentations interactives.
+Évolution vers la création de pages Web,la publication en ligne et les fonctions du format pdf.
+Initiation au travail de création d'images, des sons et des vidéos.

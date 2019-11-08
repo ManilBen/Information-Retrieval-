@@ -1,0 +1,15 @@
+Récemment, une amélioration significative de la
+la stéganographie correspondante connue par le bit le moins significatif (LSB) a
+été proposé, réduisant les modifications de l’image de couverture pour la
+même quantité de données secrètes incorporées. Quand le taux d'intégration
+est 1, cette méthode diminue le nombre de modifications attendues
+par pixel (ENMPP) de 0,5 à 0,375. Dans cette lettre, nous proposons la
+schéma dit de correspondance généralisé LSB (G-LSB-M), qui
+généralise cette méthode et la correspondance LSB. La limite inférieure
+de l’ENMPP pour le G-LSB-M est à l’étude et une construction de
+G-LSB-M est présenté en utilisant la somme et la différence couvrant
+ensemble de groupe cyclique fini. Par rapport aux travaux précédents, nous
+montrer que le G-LSB-M approprié peut réduire davantage le ENMPP
+et conduire à des schémas stéganographiques plus sûrs. Expérimental
+Les résultats illustrent clairement la meilleure résistance à l’analyse steganique des
+G-LSB-M.

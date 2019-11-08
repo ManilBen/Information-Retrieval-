@@ -1,0 +1,20 @@
+﻿Un test de pénétration est une méthode d'évaluation de la sécurité d'un système d'information ou 
+d'un réseau informatique, il est réalisé par un testeur.
+La méthode consiste généralement à analyser l'infrastructure d'un réseau informatique, afin de 
+simuler l'attaque d'un utilisateur mal intentionné, voire d'un logiciel malveillant.
+Le consultant analyse alors les risques potentiels dus à une mauvaise configuration d'un système 
+d'information, d'un défaut de configuration, de programmation informatique ou encore d'une 
+vulnérabilité liée à la solution testée.
+Lors d'un test de pénétration, le consultant adopte la position de l'attaquant potentiel (hacker).Le 
+principal but de cette manœuvre est de trouver des vulnérabilités exploitables en vue de proposer un 
+plan d'actions permettant d'améliorer la sécurité du système d'information plus élaboré que le 
+précédent, afin notamment d'empêcher des pirates informatiques de compromettre les infrastructures
+internes d'une entreprise.
+La différence avec un simple audit de sécurité est la motivation pour la personne à aller jusqu'à 
+exploiter les failles, montrant ainsi la vulnérabilité. L'exploitation n'a bien sûr pas pour but de 
+détruire ou endommager le système, mais elle permettra de situer le degré du risque lui étant associé.
+L'analyse peut se réaliser selon trois cas, qui peuvent varier selon les attentes de l'entreprise :
+   le testeur se met dans la peau d'un attaquant potentiel, et ne possède aucune information ;
+   le testeur possède un nombre limité d'informations (ex : un compte) ;
+   le testeur possède les informations dont il a besoin.
+

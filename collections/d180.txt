@@ -1,0 +1,8 @@
+La stéganographie est l’art de cacher des données informatiques dans un support de media de
+telle sorte de rendre le processus de dissimulation indétectable. Sous l’impulsion des milieux
+académique, plusieurs techniques plus en plus sophistiquées ont été proposé. Ces techniques sont
+classifiées selon trois domaines, le domaine spatial, le domaine fréquentiel et le domaine basé sur la
+compression. Nous nous sommes intéressés dans ce projet à la réalisation et la comparaison entre
+deux techniques dans le domaine spatial, la LSB Substitution et la LSB Matching. Les résultats
+obtenus montrent que la LSB Matching est meilleur pour la sécurité qui est considéré comme
+objectif principal de la stéganographie. Néanmoins la LSB Substitution est mieux dans la capacité.

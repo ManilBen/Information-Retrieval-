@@ -1,0 +1,242 @@
+Les entrées
+Dans bien des circonstances, le client envoie des informations au serveur. La situation la plus générale est celle d'un formulaire. Nous allons voir dans ce chapitre comment créer facilement un formulaire avec Laravel, comment réceptionner les entrées et nous améliorerons notre compréhension du routage. 
+
+Scénario et routes
+Nous allons envisager un petit scénario avec une demande de formulaire de la part du client, sa soumission et son traitement :
+
+Scénario
+Scénario
+On va donc avoir besoin de deux routes :
+
+une pour la demande du formulaire avec une méthode "get"
+
+une pour la soumission du formulaire avec une méthode "post"
+
+On va donc créer ces deux routes dans le fichier app/Http/routes.php :
+
+<?php
+Route::get('users', 'UsersController@getInfos');
+Route::post('users', 'UsersController@postInfos');
+Jusque-là on avait vu seulement des routes avec le verbe "get", on a maintenant aussi une route avec le verbe "post".
+
+﻿﻿Laravel autorise d'autres verbes comme "put" et "delete" ou plusieurs verbes pour une même route avec "match" et même tous les verbes avec "any".
+
+Les urls correspondantes sont donc :
+
+http://monsite.fr/users avec la méthode "get"
+
+http://monsite.fr/users avec la méthode "post"
+
+Donc on a la même url, seul le verbe diffère. Voici le scénario schématisé avec les urls :
+
+
+Les url du scénario
+Le middleware
+Je parlerai plus en détail des middlewares dans un prochain chapitre. Pour le moment on va se contenter de savoir que c'est du code qui est activé à l'arrivée de la requête (ou à son départ) pour effectuer un traitement. C'est pratique pour arrêter par exemple directement la requête s'il y a un problème de sécurité.
+
+Laravel peut servir comme application "web" ou comme "api". Dans le premier cas on a besoin :
+
+de gérer les cookies,
+
+de gérer une session,
+
+de gérer la protection CSRF (dont je parle plus loin dans ce chapitre).
+
+Si vous regardez dans le fichier app/Http/Kernel.php : 
+
+<?php
+protected $middlewareGroups = [
+    'web' => [
+        \App\Http\Middleware\EncryptCookies::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \App\Http\Middleware\VerifyCsrfToken::class,
+    ],
+
+    'api' => [
+        'throttle:60,1',
+    ],
+];
+On trouve les deux middlewares de groupes "web" et "api". On voit que dans le premier cas on active bien les cookies, les sessions et la vérification CSRF.
+
+Par défaut toutes les routes que vous entrez dans le fichier app/Http/routes.php sont incluses dans le groupe "web". Si vous regardez dans le provider app/Providers/RouteServiceProvider.php vous trouvez cette inclusion :
+
+<?php
+protected function mapWebRoutes(Router $router)
+{
+    $router->group([
+        'namespace' => $this->namespace, 'middleware' => 'web',
+    ], function ($router) {
+        require app_path('Http/routes.php');
+    });
+}
+Le formulaire
+Pour faire les choses correctement nous allons prévoir un template  resources/views/template.blade.php  :
+
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    @yield('contenu')
+</body>
+</html>
+Et une vue resources/views/infos.blade.php qui utilise ce template :
+
+@extends('template')
+
+@section('contenu')
+    {!! Form::open(['url' => 'users']) !!}
+        {!! Form::label('nom', 'Entrez votre nom : ') !!}
+        {!! Form::text('nom') !!}
+        {!! Form::submit('Envoyer !') !!}
+    {!! Form::close() !!}
+@endsection
+Nous avons déjà vu comment s'organise une vue avec un template, par contre la création du formulaire mérite quelques commentaires. Pour créer un formulaire il faut commencer par l'ouvrir :
+
+Form::open(['url' => 'users'])
+La sémantique est simple : on veut pour un formulaire (Form), ouvrir (open) celui-ci, et qu'il pointe vers l'url "users".
+
+Ensuite on veut une étiquette (label) :
+
+Form::label('nom', 'Entrez votre nom : ')
+On veut un contrôle de type "text" qui se nomme "nom" :
+
+Form::text('nom')
+On veut enfin un bouton de soumission (submit) avec le texte "Envoyer !" :
+
+Form::submit('Envoyer !')
+Et finalement on veut clore (close) le formulaire :
+
+Form::close()
+Le code généré pour le formulaire sera alors le suivant :
+
+<form method="POST" action="http://monsite.fr/users" accept-charset="UTF-8">
+    <input name="_token" type="hidden" value="pV1vWWdUqFDfYsBjKag43C3NvzbIC0lHtMnv9BpI">    
+    <label for="nom">Entrez votre nom : </label>    
+    <input name="nom" type="text" id="nom">    
+    <input type="submit" value="Envoyer !"> 
+</form>
+Quelques remarques sur cette génération :
+
+la méthode par défaut est "post", on n'a pas eu besoin de le préciser,
+
+l'action est bien générée,
+
+il y a un contrôle caché (_token ) destiné à la protection CSRF dont je parlerai plus loin,
+
+l'étiquette est bien créée avec son attribut "for",
+
+le contrôle de texte est du bon type avec le bon nom, il est en plus généré un id pour qu'il fonctionne avec son étiquette,
+
+le bouton de soumission a été généré avec son texte.
+
+Le résultat sera un formulaire sans fioriture :
+
+Le formulaire généré
+Le formulaire généré
+Si votre formulaire ne se génère pas c'est que vous n'avez peut-être pas chargé le composant Laravelcollective\Html comme nous l'avons vu dans le chapitre sur l'installation.
+
+Vous n'êtes pas obligé d'utiliser ce composant pour créer des formulaires mais je vous y encourage parce qu'il simplifie le codage et je l'utilise tout au long de ce cours. Par exemple pour créer le formulaire sans l'utiliser il nous faudrait écrire ceci :
+
+@extends('template')
+
+@section('contenu')
+    <form method="POST" action="{!! url('users') !!}" accept-charset="UTF-8">
+        {!! csrf_field() !!}   
+        <label for="nom">Entrez votre nom : </label>    
+        <input name="nom" type="text" id="nom">    
+        <input type="submit" value="Envoyer !"> 
+    </form>
+@endsection
+Le contrôleur
+Il ne nous manque plus que le contrôleur pour faire fonctionner tout ça :
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class UsersController extends Controller
+{
+
+    public function getInfos()
+    {
+        return view('infos');
+    }
+
+    public function postInfos(Request $request)
+    {
+        return 'Le nom est ' . $request->input('nom'); 
+    }
+
+}
+Mon contrôleur possède deux méthodes :
+
+la méthode getInfos qui reçoit l'url http://monsite.fr/users avec le verbe "get" et qui retourne le formulaire,
+
+la méthode postInfos qui reçoit l'url http://monsite.fr/users avec le verbe "post" et qui traite les entrées.
+
+Pour la première méthode il n'y a rien de nouveau et je vous renvoie aux chapitres précédents si quelque chose ne vous paraît pas clair. Par contre nous allons nous intéresser à la seconde méthode.
+
+Dans cette seconde méthode on veut récupérer l'entrée du client. Encore une fois la syntaxe est limpide : on veut dans la requête ($request) les entrées (input) récupérer celle qui s'appelle "nom".
+
+Si vous faites fonctionner tout ça vous devez au final obtenir l'affichage du nom saisi. Voici une schématisation du fonctionnement qui exclue les routes pour simplifier :
+
+
+Le scénario en action
+(1) le client envoie la requête de demande du formulaire qui est transmise au contrôleur par la route  (non représentée sur le schéma),
+(2) le contrôleur crée la vue "infos",
+(3) la vue "infos" crée le formulaire,
+(4) le formulaire est envoyé au client,
+(5) le client soumet le formulaire, le contrôleur reçoit la requête de soumission par l'intermédiaire de la route (non représentée sur le schéma),
+(6) le contrôleur génère la réponse,
+(7) la réponse est envoyée au client.
+
+Il existe la façade Request qui permet aussi de récupérer les entrées :
+
+<?php
+Request::input('nom')
+La protection CSRF
+On a vu que le formulaire généré par Laravel comporte un contrôle caché avec une valeur particulière :
+
+<input name="_token" type="hidden" value="pV1vWWdUqFDfYsBjKag43C3NvzbIC0lHtMnv9BpI">
+A quoi cela sert-il ?
+
+Tout d'abord CSRF signifie Cross-Site Request Forgery. C'est une attaque qui consiste à faire envoyer par un client une requête à son insu. Cette attaque est relativement simple à mettre en place et consiste à envoyer à un client authentifié sur un site un script dissimulé (dans une page web ou un email) pour lui faire accomplir une action à son insu.
+
+Pour se prémunir contre ce genre d'attaque Laravel génère un token aléatoire associé au formulaire de telle sorte qu'à la soumission ce token est vérifié pour être sûr de l'origine.
+
+Vous vous demandez peut-être où se trouve ce middleware CSRF. Il est bien rangé dans le dossier App/Http/Middleware :
+
+
+Le middleware CSRF
+Pour tester l'efficacité de cette vérification essayez un envoi de formulaire sans le token en modifiant ainsi la vue (adaptez la valeur de l'action selon votre contexte) :
+
+@extends('template')
+
+@section('contenu')
+    <form method="POST" action="http://monsite.fr/users" accept-charset="UTF-8">
+        <label for="nom">Entrez votre nom : </label>    
+        <input name="nom" type="text" id="nom">    
+        <input type="submit" value="Envoyer !"> 
+    </form>
+@endsection
+Vous tomberez sur cette erreur à la soumission :
+
+Erreur dans la vérification du token
+Erreur dans la vérification du token
+En résumé
+Laravel permet de créer des routes avec différents verbes : get, post...
+
+Un formulaire peut facilement être créé avec la classe Form.
+
+Les entrées du client sont récupérées dans la requête.﻿﻿
+
+On peut se prémunir contre les attaques CSRF, cette défense est mise en place automatiquement par Laravel﻿﻿.

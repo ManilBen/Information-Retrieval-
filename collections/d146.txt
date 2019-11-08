@@ -1,0 +1,6 @@
+D'un point de vue théorique, la lumière peut être représentée soit par des ondes électromagnétiques, soit par des photons. C'est ce que les physiciens appellent la dualité onde-corpuscule. Ainsi, certains phénomènes optiques (rayonnement du corps noir et loi de Planck, etc.) s'expliquent bien à l'aide de la théorie ondulatoire qui suppose que la lumière est une onde électromagnétique. Pour d'autres (effet photoélectrique, effet Compton, etc.), il faut supposer que la lumière est composée de corpuscules d'énergie nommés « photons ».
+
+Physique : optique quantique et photons intriqués
+La théorie quantique a formalisé cette surprenante dualité. Les photons possèdent à la fois les propriétés de particules - on peut les compter, par exemple - et celles d'ondes : ils peuvent interférer.
+
+Les physiciens sont capables de manipuler des photons uniques ou des paires de photons dits intriqués. Ils étudient les phénomènes qui en découlent dans le cadre de l'optique quantique. Les applications potentielles sont prometteuses : cryptographie inviolable, calculs basés sur le qubit, etc.

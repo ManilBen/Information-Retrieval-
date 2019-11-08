@@ -1,0 +1,11 @@
+En statistiques, un nuage de points est une représentation de données dépendant de plusieurs variables. Il permet de mettre en évidence le degré de corrélation entre au moins deux variables liées.
+
+Les différentes observations des nuages de points permettent de déterminer :
+
+Des tendances
+Des dépendances.
+Des relations positives, négatives, directes, indirectes ou inverses.
+Des répartitions plus ou moins homogènes.
+Des données aberrantes s'écartant de l'écart type.
+Des sous groupes pouvant correspondre à l'application d'une loi normale.
+Les graphiques réalisés sont très lisibles. Le statisticien doit toutefois garder à l'esprit que la corrélation entre deux variables ne suffit pas pour établir une causalité entre ces deux variables, d'autres facteurs pouvant entrer en ligne de compte.

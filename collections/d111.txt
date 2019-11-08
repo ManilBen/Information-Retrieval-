@@ -1,0 +1,15 @@
+﻿Test de la boîte noire:
+Fondement:
+Dans cette configuration il s'agit dans un premier temps de rechercher des informations sur l'entreprise, la personne, ou toute autre donnée pour s'assurer que la cible est bien celle que l'on tente d'infiltrer. Connaître la situation géographique, les informations générales d'une société, ou son fournisseur d'accès à Internet sont peut être des choses banales, mais pourtant à ne pas négliger. Effectivement, ces quelques informations en disent plus sur la cible.
+
+Pour cela, le testeur dispose de plusieurs outils :
+-le Web : cela peut paraître insignifiant, mais il peut devenir une véritable mine d'informations (adresses email, adresses postales, numéros de téléphone...) sur une cible donnée (entité physique ou morale) ; cette pratique devient triviale avec les réseaux sociaux et les moteurs de recherche ;
+-le service DNS via l’outil (ligne de commande d'administration réseau) afin d'interroger les serveurs DNS pour obtenir soit l'adresse IP en fonction d'un nom de domaine, soit l'inverse, ou encore les noms de domaine des serveurs par lesquels transitent les emails. Par ailleurs, les enregistrements DNS fournissent souvent de nombreuses informations utiles ;
+Cet ensemble de techniques non intrusives permet d'obtenir des informations publiques sur la cible. Certaines d'entre elles peuvent cependant être confidentielles (mais diffusées généralement par erreur ou par insouciance). Leur récupération, pas toujours détectable par la cible, entre dans le cadre de ce que l'on pourrait appeler une « reconnaissance passive » :
+-l'utilisation d'outils et du protocole de communication ICMP dont tracert qui permet entre autres la gélocalisation d'une adresse IP et la détection d'équipements filtrants entre le poste du testeur et l'équipement testé ;
+-l'ingénierie sociale, qui reste probablement le meilleur outil du testeur afin d'obtenir un maximum d'informations sur sa cible en un minimum de temps.
+Ces deux dernières techniques, bien que non intrusives, deviennent détectables par la cible et entrent dans le cadre de ce que l'on pourrait appeler une « reconnaissance semi-active ».
+
+Il faut ensuite pouvoir schématiser l'emplacement et l'étendue du système d'information à tester, c'est-à-dire réaliser une cartographie. Outre le fait que l'on ne testera pas uniquement une partie du système, le fait d'effectuer une telle analyse permet de comprendre le mode de fonctionnement et le raisonnement de son propriétaire. De plus, un système en réseau étendu nécessite une sécurité plus importante : la pénétration d'un seul ordinateur d'un réseau peut permettre la pénétration de tous les autres beaucoup plus facilement.
+
+

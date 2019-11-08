@@ -1,0 +1,356 @@
+La validation
+Nous avons vu dans le chapitre précédent un scénario mettant en œuvre un formulaire. Nous n'avons imposé aucune contrainte sur les valeurs transmises. Dans une application réelle, il est toujours nécessaire de vérifier que ces valeurs correspondent à ce qu'on attend. Par exemple un nom doit comporter uniquement des caractères alphabétiques et avoir une longueur maximale, une adresse email doit correspondre à un certain format.
+
+Il faut donc mettre en place des règles de validation. En général on procède à une première validation côté client pour éviter de faire des allers-retours avec le serveur. Mais quelle que soit la pertinence de cette validation côté client elle n'exonère pas d'une validation côté serveur.
+
+On ne doit jamais faire confiance à des données qui arrivent sur le serveur.
+
+Dans l'exemple de ce chapitre je ne prévoi‌rai pas de validation côté client, d'une part ce n'est pas mon propos, d'autre part elle masquerait la validation côté serveur pour les tests.
+
+Scénario et routes
+Voici le scénario que je vous propose pour ce chapitre :
+
+Scénario de prise de contact
+Scénario de prise de contact
+le client demande le formulaire de contact,
+
+le contrôleur génère le formulaire,
+
+le contrôleur envoie le formulaire,
+
+le client remplit le formulaire et le soumet,
+
+le contrôleur teste la validité des informations et là on a deux possibilités :
+
+en cas d'échec on renvoie le formulaire au client en l'informant des erreurs et en conservant ses entrées correctes,
+
+en cas de réussite on envoie un message de confirmation au client et un email à l'administrateur. 
+
+Routes
+On va donc avoir besoin de 2 routes :
+
+<?php
+Route::get('contact', 'ContactController@getForm');
+Route::post('contact', 'ContactController@postForm');
+On aura une seule url (avec verbe "get" pour demander le formulaire et verbe "post" pour le soumettre) :
+
+http://monsite.fr/contact
+Les vues
+Le template
+Pour ce chapitre je vais créer un template réaliste avec l'utilisation de Bootstrap pour alléger le code. Voici le code de ce template (resources/views/template.blade.php) :
+
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Mon joli site</title>
+        {!! Html::style('https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css') !!}
+        {!! Html::style('https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css') !!}
+        <!--[if lt IE 9]>
+            {{ Html::style('https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js') }}
+            {{ Html::style('https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js') }}
+        <![endif]-->
+        <style> textarea { resize: none; } </style>
+    </head>
+    <body>
+        @yield('contenu')
+    </body>
+</html>
+Je rappelle que dans Blade il y a deux syntaxes : la double accolade permet de sécuriser le code en échappant les caractères spéciaux alors que l'utilisation de {!! !!} n'effectue aucun traitement et doit donc être utilisé avec prudence.
+
+Pour la génération des liens vers les librairies CSS j'ai utilisé la classeHtml avec sa méthodestyle. Il y a un certain nombre de méthodes pratiques dans cette classe que nous découvrirons petit à petit.
+
+J'ai prévu l'emplacement@yield nommé "contenu" pour recevoir les pages du site, pour notre exemple on aura seulement la page de contact et celle de la confirmation. 
+
+La vue de contact
+La vue de contact va contenir essentiellement un formulaire (resources/views/contact.blade.php) :
+
+@extends('template')
+
+@section('contenu')
+    <br>
+    <div class="col-sm-offset-3 col-sm-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">Contactez-moi</div>
+            <div class="panel-body"> 
+                {!! Form::open(['url' => 'contact']) !!}
+                    <div class="form-group {!! $errors->has('nom') ? 'has-error' : '' !!}">
+                        {!! Form::text('nom', null, ['class' => 'form-control', 'placeholder' => 'Votre nom']) !!}
+                        {!! $errors->first('nom', '<small class="help-block">:message</small>') !!}
+                    </div>
+                    <div class="form-group {!! $errors->has('email') ? 'has-error' : '' !!}">
+                        {!! Form::email('email', null, ['class' => 'form-control', 'placeholder' => 'Votre email']) !!}
+                        {!! $errors->first('email', '<small class="help-block">:message</small>') !!}
+                    </div>
+                    <div class="form-group {!! $errors->has('texte') ? 'has-error' : '' !!}">
+                        {!! Form::textarea ('texte', null, ['class' => 'form-control', 'placeholder' => 'Votre message']) !!}
+                        {!! $errors->first('texte', '<small class="help-block">:message</small>') !!}
+                    </div>
+                    {!! Form::submit('Envoyer !', ['class' => 'btn btn-info pull-right']) !!}
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+@endsection
+Cette vue étend le template vu ci-dessus et renseigne la section "contenu". Je ne commente pas la mise en forme spécifique à Bootstrap.  Le formulaire est généré avec la classeForm que nous avons déjà vue au chapitre précédent.
+
+La structure des méthodes pour générer les contrôles du formulaire est toujours la même. Prenons par exemple l'email :
+
+<?php
+{!! Form::email('email', null, ['class' => 'form-control', 'placeholder' => 'Votre email']) !!}
+On veut un élément de formulaire (Form) de type "email" avec le nom "email" avec une valeur nulle et avec les attributs "class" et "placeholder" en précisant leur valeur.
+
+Le bouton de soumission ne comporte évidemment pas de valeur et on a donc un paramètre de moins pour lui.
+
+En cas de réception du formulaire suite à des erreurs on reçoit une variable$errors qui contient un tableau avec comme clés les noms des contrôles et comme valeurs les textes identifiant les erreurs.
+
+La variable$errors est générée systématiquement pour toutes les vues.
+
+C'est pour cela que je teste la présence d'une erreur pour chaque contrôle en ajustant le style et en affichant le texte de l'erreur si nécessaire avec la méthode first :
+
+{!! $errors->first('nom', '<small class="help-block">:message</small>') !!}
+S'il n'y a aucune erreur rien n'est renvoyé et donc rien n'est affiché, sinon on récupère la première (first) et on respecte le format imposé.
+
+Au départ le formulaire se présente ainsi :
+
+Le formulaire vierge
+Le formulaire vierge
+Après une soumission et renvoi avec des erreurs il peut se présenter ainsi :
+
+
+Le formulaire avec des erreurs
+Par défaut les messages sont en anglais. Pour avoir ces textes en français vous devez récupérer les fichiers sur ce site. Placez le dossier "fr" et son contenu dans le dossierresources/lang. Ensuite changez cette ligne dans le fichierconfig/app.php :
+
+'locale' => 'fr',
+
+Vous devriez avoir votre Laravel en français :
+
+Les messages en français
+Les messages en français
+ 
+
+La vue de confirmation
+Pour la vue de confirmation (resources/views/confirm.blade.php) le code est plus simple et on utilise évidemment le même template  :
+
+@extends('template')
+
+@section('contenu')
+    <br>
+    <div class="col-sm-offset-3 col-sm-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">Contactez-moi</div>
+            <div class="panel-body"> 
+                Merci. Votre message a été transmis à l'administrateur du site. Vous recevrez une réponse rapidement.
+            </div>
+        </div>
+    </div>
+@endsection
+Ce qui donne cette apparence :
+
+La confirmation
+La confirmation
+La vue de l'email pour l'administrateur
+Nous avons également besoin de créer une vue pour construire l'email pour l'administrateur (resources/views/email_contact.blade.php) :
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <h2>Prise de contact sur mon beau site</h2>
+    <p>Réception d'une prise de contact avec les éléments suivants :</p>
+    <ul>
+      <li><strong>Nom</strong> : {{ $nom }}</li>
+      <li><strong>Email</strong> : {{ $email }}</li>
+      <li><strong>Message</strong> : {{ $texte }}</li>
+    </ul>
+  </body>
+</html>
+On doit transmettre à cette vue les entrées de l'utilisateur.
+
+La requête de formulaire
+Laravel possède un outil de commande nommé Artisan que nous avons déjà utilisé et qui permet d'effectuer de nombreuses opérations.
+
+Pour les personnes allergiques à la console j'ai créé un package qui permet d'avoir les commande d'Artisan avec une interface conviviale.
+
+ 
+
+On accède à Artisan au niveau de la console : 
+
+php artisan
+Parmi les nombreuses possibilités nous allons utilisermake:request pour créer notre requête de formulaire :
+
+php artisan make:request ContactRequest
+Request created successfully.
+La requête est créée ici :
+
+
+La requête de formulaire
+Voyons le code généré :
+
+<?php 
+
+namespace App\Http\Requests;
+
+use App\Http\Requests\Request;
+
+class ContactRequest extends Request {
+
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return false;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            //
+        ];
+    }
+
+}
+La classe générée comporte 2 méthodes :
+
+authorize : pour effectuer un contrôle de sécurité éventuel sur l'identité ou les droits de l'émetteur,
+
+rules : pour les règles de validation.
+
+On va arranger le code pour notre cas :
+
+<?php 
+
+namespace App\Http\Requests;
+
+class ContactRequest extends Request {
+
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+    
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'nom' => 'required|min:5|max:20|alpha',
+            'email' => 'required|email',
+            'texte' => 'required|max:250'
+        ];
+    }
+
+}
+Au niveau de la méthoderules on retourne un tableau qui contient des clés qui correspondent aux champs du formulaire. Vous retrouvez le nom, l'email et le texte. Les valeurs contiennent les règles de validation. Comme il y en a chaque fois plusieurs elles sont séparées par le signe "|". Voyons les différentes règles prévues :
+
+required : une valeur est requise, donc le champ ne doit pas être vide,
+
+min : nombre minimum de caractères, par exemplemin:5 signifie "au minimum 5 caractères",
+
+max : c'est l'inverse de "min" avec un nombre maximum de caractères,
+
+alpha : on n'accepte que les caractères alphabétiques,
+
+email : la valeur doit être une adresse email valide.
+
+Au niveau de la méthode authorize je me suis contenté de renvoyer true parce que nous ne ferons pas de contrôle supplémentaire. 
+
+Il existe une règlebetween:min,max  qui résume l'utilisation des deux règlesmax:value etmin:value. Vous pouvez trouver toutes les règles disponibles dans la documentation. Vous verrez que la liste est longue !
+
+Le contrôleur
+Voici maintenant le code du contrôleurContactController :
+
+<?php 
+
+namespace App\Http\Controllers;
+
+use Mail;
+use App\Http\Requests\ContactRequest;
+
+class ContactController extends Controller {
+
+    public function getForm()
+    {
+        return view('contact');
+    }
+
+    public function postForm(ContactRequest $request)
+    {
+        Mail::send('email_contact', $request->all(), function($message) 
+        {
+            $message->to('monadresse@free.fr')->subject('Contact');
+        });
+
+        return view('confirm');
+    }
+
+}
+La méthodegetForm ne présente aucune nouveauté par rapport à ce qu'on a vu au chapitre précédent. On se contente de renvoyer la vuecontact qui comporte le formulaire.
+
+La méthodepostForm nécessite quelques commentaires. Vous remarquez le paramètres de typeContactRequest. On injecte dans la méthode une instance de la classeContactRequest que l'on a précédemment créée. Laravel permet ce genre d'injection de dépendance au niveau d'une méthode. Je reviendrai en détail dans un prochain chapitre sur cette possibilité.
+
+Si la validation échoue parce qu'une règle n'est pas respectée c'est la classeContactRequest qui s'occupe de tout, elle renvoie le formulaire en complétant les contrôles qui étaient corrects et crée une variable$errors pour transmettre les messages d'erreurs qu'on utilise dans la vue. Vous n'avez rien d'autre à faire !
+
+J'ai utilisé la façadeMail, j'aurais pu aussi injecter dans la méthode un objet comme je l'ai fait pour la requête de formulaire. Nous verrons dans un chapitre ultérieur l'injection de dépendance avec d'autres cas d'utilisation.
+
+Envoyer un email
+En cas de réussite de la validation on envoie un email à l'administrateur :
+
+<?php
+Mail::send('email_contact', $request->all(), function($message) 
+{
+    $message->to('monadresse@free.fr')->subject('Contact');
+});
+Laravel utilise SwiftMailer pour accomplir cette tâche. La syntaxe est simple : on utilise la classe des mails (Mail) pour envoyer (send) un email avec le contenu de la vue "email_contact" en transmettant à cette vue les éléments de la requête ($request) en précisant qu'on les veut tous (all). On envoie cet email à (to) "monadresse@free.fr" avec comme sujet (subject) "Contact".
+
+Pour que l'envoi des emails fonctionne il faut renseigner les élément suivants dans le fichier.env :
+
+MAIL_DRIVER=smtp
+MAIL_HOST=smtp.free.fr
+MAIL_PORT=25
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+Ainsi que cette ligne dans config/mail.php :
+
+'from' => ['address' => 'moi@free.fr', 'name' => 'Administrateur'],
+Ici la configuration correspond à mon hébergeur (free) pour mes tests en local. Si vous avez un hébergeur différent vous devrez évidemment adapter ces valeurs. De même si vous mettez un site en production sur un serveur.
+
+Si tout se passe bien vous devez recevoir un email de ce style :
+
+L'email pour l'administrateur
+L'email pour l'administrateur
+Voici une illustration globale du fonctionnement :
+
+
+Le fonctionnement global
+En résumé
+La validation est une étape essentielle de vérification des entrées du client.
+
+On dispose de nombreuses règles de validation.
+
+Le validateur génère des erreurs explicites à afficher au client.
+
+Pour avoir les textes des erreurs en Français il faut aller chercher les traductions et les placer dans le bon dossier.
+
+Laravel permet l'envoi simple d'email.

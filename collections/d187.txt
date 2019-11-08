@@ -1,0 +1,11 @@
+Le besoin de communication secrète ou discrète n’est pas une quête nouvelle : depuis
+l’antiquité, l’être humain, de part sa nature méfiante, a toujours chercher à protéger
+et à dissimuler ses données avec différentes méthodes. Avec l’avènement d’Internet, des
+méthodes numériques adaptées ont alors été mises en places. Dans ce manuscrit, nous
+allons nous intéresser plus particulièrement à la stéganographie qui est un procédé
+de communication secrète, et à sa discipline duale la stéganalyse. Dans ce chapitre
+d’introduction, nous commençons d’abord par détailler le problème de stéganogra-
+phie dans les média empiriques (section 1.1). Ensuite, nous positionnons nos travaux
+de thèse, par rapport à l’état de l’art actuel dans ce domaine (section 1.2). Enfin, nous
+présentons le plan de ce manuscrit, ainsi que les différentes annotations mathéma-
+tiques utilisées tout au long de ce document (sections 1.3 et 1.4).

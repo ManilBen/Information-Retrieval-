@@ -1,0 +1,20 @@
+﻿Test de la boîte noire:
+Réseau:
+Il n'est pas toujours chose aisée de cartographier un réseau informatique, surtout lorsque celui-ci est bien protégé. De ce fait, on peut très bien trouver une autre vulnérabilité permettant de pénétrer le réseau. Cela sera ensuite beaucoup plus simple de faire une cartographie.
+
+C'est lors de cette étape de cartographie que l'on détermine et trouve les informations relatives au système d'information. Dans la pratique, il s'agit principalement de :
+
+-prise d'empreinte de la pile TCP/IP afin d'étudier les différentes réponses dues aux implémentations des piles TCP/IP et de déterminer le système d'exploitation installé, ainsi que sa version.
+-balayage des ports afin de détecter des ports ouverts et les règles de filtrage des machines.
+Récupération des bannières d'informations et identification protocolaire afin d'identifier les services qui tournent derrière ces ports et leurs versions, en vue d'une exploitation ultérieure.
+Ceci, de nos jours, est relativement trivial avec des outils comme Nmap qui réalisent aisément ces opérations en fournissant une interface complète et conviviale.
+
+Ces techniques quant à elles peuvent être aisément détectées notamment à l'aide d'un système de détection d'intrusion  et elles entrent aussi dans le cadre de la reconnaissance semi-passive.
+
+Le testeur doit tester le réseau, autrement dit, il n'a pas encore terminé car c'est notamment pendant cette action qu'il va tenter de corrompre les éventuels pare-feux. Après un balayage des ports, le testeur s'intéresse également aux ports ouverts et filtrés, où il faudra utiliser les protocoles des services proposés.
+
+Exemples :
+protocole de communication HTTP pour le service d'un serveur web ;
+protocole de communication IRC pour des conversations entre internautes.
+Certains protocoles sont intrinsèquement faillibles ; dans ce cas, si le sujet respecte les normes, il sera alors facile de corrompre un service derrière un port. Cette étape est importante car sachant qu'un pare-feu ou un IDS est présent, il faudra alors le contourner ou le corrompre. La corruption s'effectue grâce à ce que l'on peut appeler des « paquets empoisonnés ». Selon une certaine méthode, le pare-feu ou l'IDS qui récupèrera ces paquets va réagir en laissant passer le testeur au travers.
+

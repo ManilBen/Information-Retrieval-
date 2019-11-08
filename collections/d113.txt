@@ -1,0 +1,9 @@
+Test de la boîte noire:
+Applicatif:
+Il ne s'agit pas d'une étape, mais d'une globalité. Après avoir trouvé les programmes actifs qui communiquent avec un autre réseau, trouver une faille dans ces applications peut amener à corrompre tout un système en peu de temps. Trouver une faille dans une application est très complexe, et peut nécessiter pas mal de temps. Cela dit, les attaques portées sur des applications sont très efficaces.
+
+Il est tout de même important pour le testeur d'avoir de solides connaissances en architecture des systèmes d'exploitation, et en langage d'assemblage, qui différera bien sûr en fonction du type de système sur lequel on tente de pénétrer.
+
+Dans beaucoup de cas, la personne qui tente de corrompre un programme va aller le trouver, puis l'étudier. Dans le cas où il lui est possible d'obtenir la source, cela facilitera davantage la tâche, car il n'aura pas, ou presque pas, à lire de code assemblé. Il aura beaucoup plus de facilité à trouver des erreurs de programmation.
+
+Le but recherché ici va être de corrompre une application pour lui faire exécuter son propre code, généralement donné en langage d'assemblage. La plus grande faille connue à ce jour est le dépassement de tampon. Mais il en existe bien d'autres qui peuvent être au moins aussi dangereuses et exploitables.

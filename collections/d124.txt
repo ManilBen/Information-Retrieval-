@@ -1,0 +1,259 @@
+Le routage et les façades
+Dans ce chapitre nous allons nous intéresser au devenir d'une requête HTTP qui arrive dans notre application Laravel. Nous allons voir l'intérêt d'utiliser un fichier htaccess pour simplifier les url. Nous verrons aussi le système de routage pour trier les requêtes.
+
+Les requêtes HTTP
+Petit rappel
+On va commencer par un petit rappel sur ce qu'est une requête HTTP. Voici un schéma illustratif :
+
+Les requêtes HTTP
+Les requêtes HTTP
+Le HTTP (Hypertext Transfer Protocol) est un protocole de communication entre un client et un serveur. Le client demande une page au serveur en envoyant une requête et le serveur répond en envoyant une réponse, en général une page HTML.
+
+La requête du client comporte un certain nombre d'informations mais nous allons nous intéresser pour le moment seulement à deux d'entre elles :
+
+la méthode : get, post, put, delete...
+
+l'url : c'est l'adresse de la page demandée sur le serveur
+
+Notre application Laravel doit savoir interpréter ces informations et les utiliser de façon pertinente pour renvoyer ce que demande le client. Nous allons voir comment cela est réalisé.
+
+.htaccess et index.php
+On veut que toutes les requêtes aboutissent obligatoirement sur le fichierindex.php situé dans le dossierpublic. Pour y arriver on peut utiliser une URL de ce genre :
+
+http://monsite.fr/index.php/mapage
+Mais ce n'est pas très esthétique avec ce index.php au milieu. Si vous avez un serveur Apache lorsque la requête du client arrive sur le serveur où se trouve notre application Laravel elle passe en premier par le fichier.htaccess, s'il existe, qui fixe des règles pour le serveur. Il y a justement un fichier .htaccess dans le dossier public de Laravel avec une règle de réécriture de telle sorte qu'on peut avoir une url simplifié :
+
+http://monsite.fr/mapage
+Un petit schéma pour visualiser cette action :
+
+La réécriture des URL
+La réécriture des URLS
+Pour que ça fonctionne il faut que le serveur Apache ait le modulemod_rewrite activé.
+
+Si vous n'utilisez pas Apache mais Nginx il faut utiliser cette directive :
+
+location / {
+    try_files $uri $uri/ /index.php?$query_string;
+}
+Le cycle de la requête
+Lorsque la requête atteint le fichierpublic/index.php l'application Laravel est créée et configurée et l'environnement est détecté. Nous reviendrons plus tard plus en détail sur ces étapes. Ensuite le fichierroutes.php est chargé. Voici l'emplacement du fichier des routes :
+
+Les fichier des routes
+Le fichier des routes
+C'est avec ce fichier que la requête va être analysée et dirigée. Regardons ce qu'on y trouve au départ :
+
+<?php 
+Route::get('/', function () {
+    return view('welcome');
+});
+Comme Laravel est explicite vous pouvez déjà deviner à quoi sert ce code :
+
+Route : on utilise le routeur,
+
+get : on regarde si la requête a la méthode "get",
+
+'/' : on regarde si l'url comporte uniquement le nom de domaine,
+
+dans la fonction anonyme on retourne (return) une vue (view ) à partir du fichier "welcome".
+
+Ce fichier "welcome" se trouve bien rangé dans le dossier des vues :
+
+
+La vue "welcome" dans le dossier des vues
+C'est ce fichier comportant du code html qui génère le texte d'accueil que vous obtenez au démarrage initial de Laravel. 
+
+Laravel propose plusieurs helpers qui simplifient la syntaxe.  Il y a par exemple  viewpour la classe View comme on l'a vu dans le code ci-dessus. Laravel est équipé de nombreux helpers comme celui-ci qui facilitent et accélèrent le codage.
+
+Visualisons le cycle de la requête :
+
+
+Le cycle de la requête
+Sur votre serveur local vous n'avez pas de nom de domaine et vous allez utiliser une url de la formehttp://localhost/tuto/public en admettant que vous ayez créé Laravel dans un dossierwww/tuto. Mais vous pouvez aussi créer un hôte virtuel pour avoir une situation plus réaliste.
+
+Plusieurs routes et paramètre de route
+A l'installation Laravel a une seule route qui correspond à l'url de base composée uniquement du nom de domaine. Voyons maintenant comment créer d'autres routes. Imaginons que nous avons 3 pages qui doivent être affichées avec ces urls :
+
+http://monsite.fr/1
+
+http://monsite.fr/2
+
+http://monsite.fr/3
+
+J'ai fait apparaître en gras la partie spécifique de l'url pour chaque page. Il est facile de réaliser cela avec ce code :
+
+<?php
+Route::get('1', function() { return 'Je suis la page 1 !'; });
+Route::get('2', function() { return 'Je suis la page 2 !'; });
+Route::get('3', function() { return 'Je suis la page 3 !'; });
+Cette fois je n'ai pas créé de vue parce que ce qui nous intéresse est uniquement une mise en évidence du routage, je retourne donc directement la réponse au client. Visualisons cela pour la page 1 : 
+
+Demande de la page 1
+On a besoin du caractère "/" uniquement dans la route de base.
+
+On peut maintenant se poser une question : est-il vraiment indispensable de créer 3 routes alors que la seule différence tient à peu de chose : une valeur qui change. On peut utiliser un paramètre pour une route qui accepte des éléments variables en utilisant des accolades. Regardez ce code :
+
+<?php 
+Route::get('{n}', function($n) {
+    return 'Je suis la page ' . $n . ' !'; 
+});
+ 
+
+
+
+Une route paramétrée
+On peut rendre un paramètre optionnel en lui ajoutant un point d'interrogation mais il ne doit pas être suivi par un paramètre obligatoire.
+
+Erreur d'exécution et contrainte de route
+Dans mon double exemple précédent lorsque je dis que le résultat est exactement le même je mens un peu. Que se passe-t-il dans les deux cas pour cette url :
+
+http://monsite.fr/4
+Dans le cas des trois routes vous tombez sur une erreur :
+
+
+Erreur d'exécution : la route n'existe pas
+Par contre dans la version avec le paramètre vous obtenez une réponse valide :
+
+Je suis la page 4 !
+Ce qui est logique parce qu'une route est trouvée. Le paramètre accepte n'importe quelle valeur et pas seulement des nombres. Par exemple avec cette url :
+
+http://monsite.fr/nimportequoi
+Vous obtenez :
+
+Je suis la page nimportequoi !
+Ce qui vous l'avouerez n'est pas très heureux !
+
+Pour éviter ce genre de désagrément il faut contraindre le paramètre à n'accepter que certaines valeurs. On réalise cela à l'aide d'une expression régulière :
+
+<?php
+Route::get('{n}', function($n) { 
+    return 'Je suis la page ' . $n . ' !'; 
+})->where('n', '[1-3]');
+Maintenant je peux affirmer que les comportements sont identiques ! Mais il nous faudra régler le problème des routes non prévues. Nous verrons cela dans un prochain chapitre.
+
+Route nommée
+Il est parfois utile de nommer une route, par exemple pour générer une URL ou pour effectuer une redirection. La syntaxe pour nommer une route est celle-ci :
+
+<?php
+Route::get('/', ['as' => 'home', function()
+{
+  return 'Je suis la page d\'accueil !';
+}]);
+Nous verrons des cas d'utilisation de routes nommées dans les prochains chapitres.
+
+Les façades
+Laravel propose de nombreuses façades pour simplifier la syntaxe. Vous pouvez les trouver toutes déclarées dans le fichierconfig/app.php :
+
+<?php
+'aliases' => [
+    'App'       => Illuminate\Support\Facades\App::class,
+    'Artisan'   => Illuminate\Support\Facades\Artisan::class,
+    'Auth'      => Illuminate\Support\Facades\Auth::class,
+    'Blade'     => Illuminate\Support\Facades\Blade::class,
+    'Cache'     => Illuminate\Support\Facades\Cache::class,
+    'Config'    => Illuminate\Support\Facades\Config::class,
+    'Cookie'    => Illuminate\Support\Facades\Cookie::class,
+    'Crypt'     => Illuminate\Support\Facades\Crypt::class,
+    'DB'        => Illuminate\Support\Facades\DB::class,
+    'Eloquent'  => Illuminate\Database\Eloquent\Model::class,
+    'Event'     => Illuminate\Support\Facades\Event::class,
+    'File'      => Illuminate\Support\Facades\File::class,
+    'Gate'      => Illuminate\Support\Facades\Gate::class,
+    'Hash'      => Illuminate\Support\Facades\Hash::class,
+    'Lang'      => Illuminate\Support\Facades\Lang::class,
+    'Log'       => Illuminate\Support\Facades\Log::class,
+    'Mail'      => Illuminate\Support\Facades\Mail::class,
+    'Password'  => Illuminate\Support\Facades\Password::class,
+    'Queue'     => Illuminate\Support\Facades\Queue::class,
+    'Redirect'  => Illuminate\Support\Facades\Redirect::class,
+    'Redis'     => Illuminate\Support\Facades\Redis::class,
+    'Request'   => Illuminate\Support\Facades\Request::class,
+    'Response'  => Illuminate\Support\Facades\Response::class,
+    'Route'     => Illuminate\Support\Facades\Route::class,
+    'Schema'    => Illuminate\Support\Facades\Schema::class,
+    'Session'   => Illuminate\Support\Facades\Session::class,
+    'Storage'   => Illuminate\Support\Facades\Storage::class,
+    'URL'       => Illuminate\Support\Facades\URL::class,
+    'Validator' => Illuminate\Support\Facades\Validator::class,
+    'View'      => Illuminate\Support\Facades\View::class,
+    'Form'      => Collective\Html\FormFacade::class,
+    'Html'      => Collective\Html\HtmlFacade::class,
+],
+Vous trouvez dans ce tableau le nom de la façade et la classe qui met en place cette façade. Par exemple pour les routes on a la façadeRoute qui correspond à la classeIlluminate\Support\Facades\Route. Regardons cette classe :
+
+<?php
+
+namespace Illuminate\Support\Facades;
+
+/**
+ * @see \Illuminate\Routing\Router
+ */
+class Route extends Facade
+{
+    /**
+     * Get the registered name of the component.
+     *
+     * @return string
+     */
+    protected static function getFacadeAccessor()
+    {
+        return 'router';
+    }
+}
+On se contente de retourner 'router'. Il faut aller voir dans le fichierIlluminate\Routing\RoutingServiceProvider pour trouver l'enregistrement du router :
+
+<?php
+/**
+ * Register the router instance.
+ *
+ * @return void
+ */
+protected function registerRouter()
+{
+    $this->app['router'] = $this->app->share(function ($app) {
+        return new Router($app['events'], $app);
+    });
+}
+Les providers permettent d'enregistrer des composants dans le conteneur de Laravel. Ici on déclare "router" et on voit qu'on crée une instance de la classe Router (new Router...). Le nom complet estIlluminate\Routing\Router. Si vous allez voir cette classe vous trouverez les méthodes qu'on a utilisées dans ce chapitre, par exempleget:
+
+<?php
+/**
+ * Register a new GET route with the router.
+ *
+ * @param  string  $uri
+ * @param  \Closure|array|string  $action
+ * @return \Illuminate\Routing\Route
+ */
+public function get($uri, $action)
+{
+    return $this->addRoute(['GET', 'HEAD'], $uri, $action);
+}
+Autrement dit si j'écris en utilisant la façade :
+
+<?php
+Route::get('/', function() { return 'Coucou'; });
+J'obtiens le même résultat que si j'écris en allant chercher le routeur dans le conteneur :
+
+<?php
+$this->app['router']->get('/', function() { return 'Coucou'; });
+Ou encore en utilisant un helper :
+
+<?php
+app('router')->get('/', function() { return 'Coucou'; });
+La différence est que la première syntaxe est plus simple et intuitive mais certains n'aiment pas trop ce genre d'appel statique.
+
+En résumé
+ Laravel possède un fichier.htaccess pour simplifier l'écriture des url.
+
+ Le système de routage est simple et explicite.
+
+ On peut prévoir des paramètres dans les routes.
+
+ On peut contraindre un paramètre à correspondre à une expression régulière.
+
+On peut nommer une route pour faciliter la génération des URL et les redirections.
+
+ Il faut prévoir de gérer toutes les url, même celles qui n'ont aucune route prévue.
+
+Laravel est équipé de nombreuses façades qui simplifient la syntaxe.
+
+Il existe aussi des helpers pour simplifier la syntaxe

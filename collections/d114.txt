@@ -1,0 +1,11 @@
+Test de la boîte noire:
+Web:
+De nombreuses possibilités s'offrent si le système d'information dispose d'un serveur web sur le même réseau. Naturellement, plus le nombre de services actifs est élevé, plus la surface d'attaque est importante. Ainsi, un service de plus mène à des failles potentielles.
+
+Le service web est l'un des plus exploités des Hackers et débutants, de ce fait, il est primordial d'y avoir une bonne sécurité. D'autant plus que la sécurité d'un site web est beaucoup plus mise en péril en raison du grand nombre d'attaquants, qui préféreront ce type d'attaque à la recherche d'autres failles dans le système.
+
+La plupart, pour ne pas dire la totalité des failles présentes sur le web, sont dues à une mauvaise programmation du service proposé. De multiples vulnérabilités sont connues à ce jour, telles que les injections SQL, les failles CSRF, etc.
+
+Outre le fait que l'attaquant peut parfaitement élever ses droits sur le site, il lui est également possible en fonction des failles d'élever ses droits sur le système au complet, pouvant ainsi le corrompre aisément. Il doit pour cela avoir une maîtrise parfaite du protocole de communication mis à disposition, en l'occurrence, HTTP pour un site web.
+
+L'attaquant présumé va alors tester tout le site: URL, formulaires et variables principalement (requêtes GET, POST), en-têtes, etc. On pourrait le classer dans la rubrique réseau car les attaques vont s'effectuer via des requêtes et leurs réponses.

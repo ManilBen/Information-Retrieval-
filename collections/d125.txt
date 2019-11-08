@@ -1,0 +1,210 @@
+Les réponses
+Nous avons vu précédemment comment la requête qui arrive est traitée par les routes. Voyons maintenant les réponses que nous pouvons renvoyer au client. Nous allons voir le système des vues de Laravel avec la possibilité de transmettre des paramètres. Nous verrons aussi comment créer des templates avec l'outil Blade.
+
+Construire une réponse
+Les codes des réponses
+Dans le protocole HTTP il existe des codes pour spécifier les réponses. Ces codes sont classés par grandes catégories. Voici les 3 principaux :
+
+200 : requête exécutée avec succès
+
+404 : l'adresse demandée n'a pas été trouvée
+
+500 : erreur sur le serveur
+
+Dans les exemples que j'ai utilisés dans le chapitre précédent sur les routes, je n'ai pas précisé de code. Je me suis contenté de retourner un texte au client. Celui-ci n'a aucune utilité du code et veut quelque chose d'explicite, par contre les moteurs de recherche savent interpréter ces codes.
+
+En plus du simplereturn pour renvoyer la réponse je peux utiliser l'helperresponse et préciser le code :
+
+<?php
+Route::get('{n}', function($n) { 
+    return response('Je suis la page ' . $n . ' !', 200);
+})->where('n', '[1-3]');
+Maintenant je retourne une véritable réponse HTTP avec le code correspondant.
+
+Il existe la façade Response pour les réponses. On peut donc écrire :
+
+<?php
+return Response::make('Je suis la page ' . $n . ' !', 200);
+ce qui est équivalent à ce qu'on a écrit ci-dessus.
+
+Les vues
+Dans une application réelle vous retournerez rarement la réponse directement à partir d'une route, vous passerez au moins par une vue. Dans sa version la plus simple une vue est un simple fichier avec du code html :
+
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ma première vue</title>
+</head>
+<body>
+    Je suis une vue !
+</body>
+</html>
+Il faut enregistrer cette vue (j'ai choisi le nom "vue1") dans le dossierresources/views avec l'extensionphp :
+
+
+La vue dans le dossier des vues
+Même si vous ne mettez que du code HTML dans une vue vous devez l'enregistrer avec l'extension php.
+
+On peut appeler cette vue à partir d'une route avec ce code :
+
+<?php
+Route::get('/', function()
+{
+    return view('vue1');
+});
+Je vous rappelle la belle sémantique de Laravel qui se lit comme de la prose : je retourne (return) une vue (view) à partir du fichier de vue "vue1".
+
+Voici une illustration du processus :
+
+
+Le cycle de requête avec une vue
+Vue paramétrée
+En général on a des informations à transmettre à une vue, voyons à présent comment mettre cela en place. Supposons que nous voulons répondre à ce type de requête :
+
+http://monsite.fr/article/n
+Le paramètren pouvant prendre une valeur numérique . Voyons comment cette url est constituée :
+
+
+Constitution de l'url
+la base de l'url est constante pour le site, quelle que soit la requête,
+
+la partie fixe ici correspond aux articles,
+
+la partie variable correspond au numéro de l'article désiré.
+
+Route
+Il nous faut une route pour intercepter ces urls :
+
+<?php
+Route::get('article/{n}', function($n) { 
+    return view('article')->with('numero', $n); 
+})->where('n', '[0-9]+');
+Vue
+Il ne nous reste plus qu'à créer la vuearticle.php dans le dossierresources/views :
+
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Les articles</title>
+</head>
+<body>
+    <p>C'est l'article n° <?php echo $numero ?></p>
+</body>
+</html>
+Pour récupérer le numéro de l'article on utilise la variable$numero. Voici une schématisation du fonctionnement :
+
+
+
+Demande de l'article numéro 1
+Il existe une méthode "magique" pour transmettre un paramètre, par exemple pour transmettre la variablenumero comme je l'ai fait ci-dessus on peut écrire le code ainsi :
+
+<?php
+return view('article')->withNumero($n);
+ Il suffit de concaténer le nom de la variable au mot cléwith.‌ 
+
+On peut aussi transmettre un tableau comme deuxième paramètre :
+
+<?php
+return view('article', ['numero' => $n]);
+Blade
+Simplifier la syntaxe
+Laravel possède un moteur de template élégant nommé Blade qui nous permet de faire pas mal de choses. La première est de nous simplifier la syntaxe. Par exemple au lieu de la ligne suivante que nous avons prévue dans la vue précédente :
+
+<p>C'est l'article n° <?php echo $numero ?></p>
+On peut utiliser cette syntaxe avec Blade :
+
+<p>C'est l'article n° {{ $numero }}</p>
+Tout ce qui se trouve entre les doubles accolades est interprété comme du code PHP. Mais pour que ça fonctionne il faut indiquer à Laravel qu'on veut utiliser Blade pour cette vue. Ça se fait simplement en modifiant le nom du fichier :
+
+
+Une vue activée pour Blade
+Il suffit d'ajouter "blade" avant l'extension "php". Vous pouvez tester l'exemple précédent avec ces modifications et vous verrez que tout fonctionne parfaitement avec une syntaxe épurée.
+
+Il y a aussi la version avec la syntaxe {!! ... !!}. La différence entre les deux versions est que le texte entre les doubles accolades est échappé ou purifié. C'est une mesure de sécurité parce qu'un utilisateur pourrait très bien mettre du code malicieux dans l'url.
+
+Un template
+Une fonction fondamentale de Blade est de permettre de faire du templating, c'est à dire de factoriser du code de présentation. Poursuivons notre exemple en complétant notre application avec une autre route chargée d'intercepter des urls pour des factures ainsi que sa vue :
+
+<?php
+Route::get('facture/{n}', function($n) { 
+    return view('facture')->withNumero($n); 
+})->where('n', '[0-9]+');
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Les factures</title>
+</head>
+<body>
+    <p>C'est la facture n° {{ $numero }}</p>
+</body>
+</html>
+On se rend compte que cette vue est pratiquement la même que celle pour les articles. Il serait intéressant de placer le code commun dans un fichier. C'est justement le but d'un template d'effectuer cette opération.
+
+Voici le template :
+
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>@yield('titre')</title>
+</head>
+<body>
+    @yield('contenu')
+</body>
+</html>
+J'ai repris le code commun et prévu deux emplacements repérés par le mot clé @yield et nommés "titre" et "contenu". Il suffit maintenant de modifier les deux vues. Voilà pour les articles :
+
+@extends('template')
+
+@section('titre')
+    Les articles
+@endsection
+
+@section('contenu')
+    <p>C'est l'article n° {{ $numero }}</p>
+@endsection
+Et voilà pour les factures :
+
+@extends('template')
+
+@section('titre')
+    Les factures
+@endsection
+
+@section('contenu')
+    <p>C'est la facture n° {{ $numero }}</p>
+@endsection
+Dans un premier temps on dit qu'on veut utiliser le template avec@extends et le nom du template "template". Ensuite on remplit les zones prévues dans le template grâce à la syntaxe@section en précisant le nom de l'emplacement et en fermant avec@endsection (l'ancienne syntaxe@stopest encore fonctionnelle). Voici un schéma pour bien visualiser tout ça avec les articles :
+
+
+Fonctionnement du template
+Au niveau du dossier des vues on a donc les trois fichiers :
+
+
+Dossier des vues
+Lorsqu'elles deviendront nombreuses on organisera nos vues dans des dossiers. Vous pouvez d'ailleurs remarquer qu'il en existe déjà plusieurs dans l'installation de base. 
+
+Les redirections
+Souvent il ne faut pas envoyer directement la réponse mais rediriger sur une autre url. Pour réaliser cela on a l'helperredirect:
+
+<?php
+return redirect('facture');
+Ici on redirige sur l'url facture. On peut aussi rediriger sur une route nommée :
+
+<?php
+return redirect()->route('facture');
+Ici on redirige sur la route nomméefacture.
+
+On verra de nombreux exemples de redirections dans les prochains chapitres.
+
+En résumé
+Laravel offre la possibilité de créer des vues.
+
+Il est possible de transmettre simplement des paramètres aux vues.
+
+L'outil Blade permet de créer des templates et d'optimiser ainsi le code des vues.
+
+On peut facilement effectuer des redirections.

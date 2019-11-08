@@ -1,0 +1,295 @@
+Configuration et session
+Dans ce chapitre nous verrons la configuration et la gestion des sessions avec un exemple simple d'envoi et d'enregistrement de fichiers images dans un dossier à partir d'un formulaire.
+
+La configuration et les sessions
+La configuration
+Tout ce qui concerne la configuration de Laravel se trouve dans le dossierconfig :
+
+
+Le dossier de configuration
+On a déjà eu l'occasion d'intervenir sur le fichier de configuration des emails. Les fichiers de configuration contiennent en fait juste un tableau avec des clés et des valeurs. Par exemple pour les vues :
+
+<?php
+'paths' => [
+    realpath(base_path('resources/views'))
+],
+On a la clé "paths" et la valeur "realpath(base_path('resources/views'))". Pour récupérer une valeur il suffit d'utiliser sa clé avec la façadeConfig et la méthodeget :
+
+<?php
+Config::get('view.paths');
+On utilise le nom du fichier (view) et le nom de la clé (paths) séparés par un point.
+
+Il existe aussi un helper pour simplifier la syntaxe :
+
+<?php
+config('view.paths');
+On peut de la même façon fixer une valeur :
+
+<?php
+Config::set('view.paths', [base_path().'/mes_vues']);
+Si je fais effectivement cela mes vues, au lieu d'être cherchées dans le dossierresources/views seront cherchées dans le dossiermes_vues.
+
+On peut aussi fixer une valeur avec l'helper en passant un tableau comme paramètre :
+
+<?php
+config('view.paths' => [base_path().'/mes_vues']);
+Vous pouvez évidemment créer vos propres fichiers de configuration. Pour l'exemple de ce chapitre on va avoir besoin justement d'utiliser une configuration. Comme notre application doit enregistrer des fichiers d'images dans un dossier il faut définir l'emplacement et le nom de ce dossier de destination. On va donc créer un fichierimages.php :‌
+
+
+Le fichier de configuration des images
+Dans ce fichier on va définir le chemin du dossier :
+
+<?php
+return ['path' => 'uploads'];
+Tant qu'à faire on crée aussi le dossier correspondant :
+
+
+Le dossier pour les images
+Les sessions
+La façade Session de Laravel permet une gestion simplifiée des sessions. Vous pouvez ainsi créer une variable de session :
+
+<?php
+Session::put('clef', 'valeur');
+Il existe aussi un helper, ainsi on obtient le même résultat avec :
+
+<?php
+session(['clef' => 'valeur']);
+Vous pouvez aussi récupérer une valeur à partir de sa clé :
+
+<?php
+$valeur = Session::get('clef');
+Ce qui donne avec l'helper :
+
+<?php
+$valeur = session('clef');
+Il est souvent utile (ça sera le cas pour notre exemple) de savoir si une certaine clé est présente en session :
+
+<?php
+if (Session::has('error'))
+Ou avec l'helper :
+
+<?php
+if (session()->has('error'))
+Ces informations demeurent pour le même client à travers ses requêtes. Laravel s'occupe de ces informations, on se contente de lui indiquer un couple clé-valeur et il s'occupe de tout. C'est ce que nous allons voir dans ce chapitre.
+
+Ce ne sont là que les méthodes de base pour les sessions utiles pour notre exemple, vous trouverez tous les renseignements complémentaires dans la documentation.
+
+La requête de formulaire
+Nous allons encore avoir besoin d'une requête de formulaire pour la validation. Comme nous l'avons déjà vu nous utilisons la commande d'artisan pour la créer :
+
+php artisan make:request ImagesRequest
+Request created successfully.
+On trouve le fichier bien rangé :
+
+
+La requête de formulaire pour les images
+On complète ainsi le code :
+
+<?php 
+
+namespace App\Http\Requests;
+
+use App\Http\Requests\Request;
+
+class ImagesRequest extends Request {
+
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return ['image' => 'required|image'];
+    }
+
+}
+Seulement deux règles pour le champimage :
+
+le champ est obligatoire (required),
+
+ce doit être une image (image).
+
+Maintenant notre validation est prête.
+
+Les routes et le contrôleur
+On va avoir besoin de deux routes  :
+
+<?php
+Route::get('photo', 'PhotoController@getForm');
+Route::post('photo', 'PhotoController@postForm');
+Notre contrôleur s'appellePhotoController, voici son code :
+
+<?php 
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\ImagesRequest;
+
+class PhotoController extends Controller 
+{
+
+    public function getForm()
+    {
+        return view('photo');
+    }
+
+    public function postForm(ImagesRequest $request)
+    {
+        $image = $request->file('image');
+
+        if($image->isValid())
+        {
+            $chemin = config('images.path');
+
+            $extension = $image->getClientOriginalExtension();
+
+            do {
+                $nom = str_random(10) . '.' . $extension;
+            } while(file_exists($chemin . '/' . $nom));
+
+            if($image->move($chemin, $nom)) {
+                return view('photo_ok');
+            }
+        }
+
+        return redirect('photo')
+            ->with('error','Désolé mais votre image ne peut pas être envoyée !');
+    }
+
+}
+Donc au niveau des urls :
+
+http://monsite.fr/photo avec le verbeget pour la demande du formulaire,
+
+http://monsite.fr/photo avec le verbepost pour la soumission du formulaire et l'envoi du fichier image associé.
+
+En ce qui concerne le traitement de la soumission, vous remarquez qu'on récupère le chemin du dossier d'enregistrement qu'on a prévu dans la configuration :
+
+<?php
+$chemin = config('images.path');
+Pour récupérer le fichier envoyé j'ai utilisé la requête et la méthodefile :
+
+<?php
+$image = $request->file('image');
+Pour récupérer l'extension originelle on utilise la méthodegetClientOriginalExtension qui est l'une des méthodes deSymfony\Component\HttpFoundation\File, comme la méthodeisValid qui nous permet de vérifier la validité du fichier.
+
+On génère un nom aléatoire avec l'helperstr_random en définissant 10 caractères et on vérifie que le nom n'est pas déjà pris (ce qui ne serait vraiment pas de chance  !).
+
+Enfin on enregistre l'image avec la méthodemove. Si tout se passe bien on retourne la vuephoto_ok. Sinon on redirige (redirect) vers l'url photo en prévoyant dans la session (with) une variableerror avec la valeur "Désolé mais votre image ne peut pas être envoyée !".
+
+Les vues
+On va utiliser le template des chapitres précédents (resources/views/template.blade.php) :
+
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Mon joli site</title>
+        {!! Html::style('https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css') !!}
+        {!! Html::style('https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css') !!}
+        <!--[if lt IE 9]>
+            {{ Html::style('https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js') }}
+            {{ Html::style('https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js') }}
+        <![endif]-->
+        <style> textarea { resize: none; } </style>
+    </head>
+    <body>
+        @yield('contenu')
+    </body>
+</html>
+Voici la vue pour le formulaire (resources/views/photo.blade.php) :
+
+@extends('template')
+
+@section('contenu')
+    <br>
+    <div class="col-sm-offset-4 col-sm-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">Envoi d'une photo</div>
+            <div class="panel-body"> 
+                @if(session()->has('error'))
+                    <div class="alert alert-danger">{!! session('error') !!}</div>
+                @endif
+                {!! Form::open(['url' => 'photo', 'files' => true]) !!}
+                    <div class="form-group {!! $errors->has('image') ? 'has-error' : '' !!}">
+                        {!! Form::file('image', ['class' => 'form-control']) !!}
+                        {!! $errors->first('image', '<small class="help-block">:message</small>') !!}
+                    </div>
+                    {!! Form::submit('Envoyer !', ['class' => 'btn btn-info pull-right']) !!}
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+@endsection
+Avec cet aspect :
+
+Le formulaire
+Le formulaire
+Cette vue fait apparaître une possibilité de Blade qu'on n'avait pas encore rencontrée, celle d'utiliser des conditions :
+
+@if(session()->has('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
+Ici on teste avec@if la présence de la clé "error" dans la session. Si cette clé est présente alors on fait apparaître une barre d'alerte avec le texte contenu en session, récupéré avec l'helpersession.
+
+Remarquez aussi comment est créé le formulaire :
+
+Form::open(['url' => 'photo', 'files' => true])
+Le fait d'ajouter l'attributfiles avec la valeurtrue va avoir pour effet de faire apparaître le type mime nécessaire pour associer un fichier lors de la soumission :
+
+enctype="multipart/form-data"
+En cas d'erreur de validation le message est affiché et la bordure du champ devient rouge :
+
+
+Erreur de validation
+En cas de problème dans la mémorisation du fichier on retourne un message par l'intermédiaire de la session et on l'affiche dans une barre d'alerte :
+
+Erreur de mémorisation du fichier
+Erreur de mémorisation du fichier
+Et voici la vue pour la confirmation en retour (app/views/photo_ok.blade.php) :
+
+@extends('template')
+
+@section('contenu')
+    <br>
+    <div class="col-sm-offset-3 col-sm-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">Envoi d'une photo</div>
+            <div class="panel-body"> 
+                Merci. Votre photo à bien été reçue et enregistrée.
+            </div>
+        </div>
+    </div>
+@endsection
+Avec cet aspect :
+
+La vue de confirmation
+La vue de confirmation
+Et on retrouve normalement le fichier bien rangé dans le dossier prévu :
+
+
+Le fichier dans le dossier prévu
+Voici le schéma de fonctionnement :
+
+
+Schéma de fonctionnement
+ 
+
+En résumé
+Les fichiers de configuration permettent de mémoriser facilement des ensembles clé-valeur et sont gérés par la façadeConfig ou l'helperconfig.
+
+Les sessions permettent de mémoriser des informations concernant un client et sont facilement manipulables avec la façadeSession ou avec l'helpersession. 
+

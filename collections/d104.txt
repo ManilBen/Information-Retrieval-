@@ -1,0 +1,41 @@
+Aménagement d'un terrarium pour tortues de terre
+
+Hors de l'hibernation, toute tortue qui ne vit pas dehors doit être maintenue dans un enclos intérieur ou dans un terrarium équipé d'un substrat adapté (10 à 15 cm d'une terre non traitée et bien choisie du type Terre de Bruyère par exemple), correctement chauffé et humidifié, et éclairé par un tube fluo diffusant des UV dont la longueur d'onde est adaptée aux besoins des tortues. Une lampe classique doit également fournir une source de chaleur plus importante associée à sa lumière. Cette lampe doit être placée à une extrémité du terrarium.
+
+Une bonne méthode pour connaître les dimensions minimales du terrarium
+1. Pour chacune de vos tortues qui vivront dans ce terrarium, mesurez cette longueur en centimètres.
+2. Faites ensuite l'addition des longueurs obtenues.
+3. Enfin multipliez par 7. Vous obtenez la longueur minimale nécessaire pour le terrarium.
+Le terrarium pour tortue(s) ne devra jamais être un coffrage de moins de 80 cm de longueur. Car si vous obtenez dans votre calcul une longueur moindre que ces 80 cm cela signifie que votre (vos) tortue(s) est (sont) extrêmement jeune(s) et donc en pleine croissance. Vous devrez alors choisir cette longueur minimale de 80 cm (ou plus si vous le souhaitez).
+Le terrarium pour tortue(s) ne devra jamais avoir moins de 40 cm de profondeur. Enfin il ne devra jamais avoir moins de 45 cm de hauteur. Une bonne hauteur est une hauteur ayant pour dimension 5/8 de la longueur.
+
+Le terrarium est avant tout un coffrage. Quels matériaux utiliser ?
+Dans un terrarium de constitution simple on peut facilement respecter les différences de luminosité, de température et d'hygrométrie nécessaires à la tortue en jonglant avec la forme et les dimensions du terrarium, la disposition des éléments électriques et la nature des matériaux utilisés.
+Pour des tortues terrestres, le terrarium sera toujours un coffre solide avec ou sans armature, et dont les parois seront en verre transparent et non coloré. Certains terrariums, notamment pour de jeunes tortues forestières ou palustres (Terrapene, Cuora, Geoemydaé), pourront être construits avec des parois opaques afin de garantir l'intimité préférée de ces animaux un peu particuliers.
+N'utilisez pas de bois aggloméré collé en raison de la toxicité des colles utilisées dans ces matériaux. N'oubliez pas que la température rend toxiques voire corrosifs les gaz émanant des colles.
+Prévoyez toujours une ouverture vitrée à l'avant plutôt que sur le dessus. Faites cette vitre la plus grande possible, sauf si le terrarium est prévu pour accueillir des tortues forestières ou palustres. Cette vitre doit être amovible, autant que possible à glissière, afin de servir également de porte.
+Sous la face avant où se trouve cette porte, réservez une bande non amovible d'une hauteur de 10 à 15 cm sur toute la longueur du terrarium, car vous devrez mettre de la terre dans le terrarium (sinon cela ne s'appelle plus un terrarium !). Si vous faites un terrarium entièrement en verre utilisez de la silicone à aquarium pour les collages. C'est le matériau le mieux adapté pour cet usage. N'utilisez pas de colle !
+
+Le fond
+Le fond du terrarium doit être imputrescible, et doit permettre un entretien facile de l'ensemble.
+Un matériau d'isolation d'excellente qualité pour le fond du terrarium est le liège, notamment la feuille de liège utilisée pour la décoration murale des salles de bain. Ces fines feuilles de liège sont garanties imputrescibles, sont totalement non toxiques et sont extrêmement faciles à travailler. On les trouve en feuilles prédécoupées et on les trouve aussi en rouleaux. La solution des rouleaux est infiniment plus pratique et plus économique. N'oubliez pas que cette feuille de liège garnissant le fond du terrarium devra être renouvelée une fois par an. Un simple cutter suffit pour travailler ces feuilles de liège mural de salles de bain. Et je conseille de mettre deux couches.
+
+Le substrat
+Le substrat proprement dit du terrarium est ensuite directement étalé sur cette feuille de liège. On évite absolument les copeaux de bois, quel que soit le bois, quelle que soit la marque et quelle que soit la persuasion du vendeur animalier ! Le plastron des tortues a une fonction très importante qui est de rediffuser dans le substrat terrestre les excès de température corporelle. La terre s'y prête totalement. Les copeaux de bois ne s'y prêtent pas du tout ! Les tortues ont besoin parfois aussi de s'enfouir complètement dans la terre pour y trouver à la fois une obscurité, une fraicheur et une hygrométrie plus importante qu'à la surface de la terre. Encore une fois les copeaux de bois ne s'y prêtent pas du tout. Autre inconvénient des copeaux de bois : les échardes et multiples poussières d'acariens (même pour les bois "traités anti-acariens") qui sont sources de multiples pathologies respiratoires et ophtalmiques.
+
+Le tube fluo UV
+Quel que sera le matériau utilisé pour les parois, un tube fluo UV "spécial reptiles" sera indispensable. Le but essentiel d'un tube fluo UV est de compenser la perte d'UV occasionnée par les différents filtres naturels (vitre du salon, paroi du terrarium, etc.) qui s'interposent entre le soleil et la tortue. Nous décrirons longuement dans ce dossier l'utilisation des tubes fluo "spécial reptiles".
+Si la tortue vit dehors le plus clair de son temps dans l'année elle est, sur le point de vue des UV, dans les conditions idéales jusque dans le nord de la France et le sud de la Belgique. En intérieur les conditions d'exposition aux UV sont très différentes des conditions extérieures. Les UV du soleil ne pouvant pas arriver jusqu'au centre du terrarium à cause du verre des parois et du verre de la vitre du salon, il faut obligatoirement en recréer artificiellement.
+
+Conclusions de ce document
+Un terrarium doit être conçu pour respecter le mode de vie des tortues juvéniles. Son usage pour les tortues adultes est limité ‚ la durée de pathologies nécessitant isolement, température et hygrométrie maîtrisée. Une fois la tortue de nouveau en bonne santé, celle-ci doit retourner en enclos extérieur. Evoquer l'importance des UV dans le métabolisme des tortues ne suffit pas. Il faut distinguer les UV A des UV B qui arrivent au sol après la traversée de l'atmosphère terrestre.
+
+Le verre arrête la quasi-totalité des UV (mais pas les infrarouges). Son usage est très pratique en terrariophilie pour concevoir des terrariums solides et lourds, mais quel que soit le matériau utilisé (verre ou matériau composite) on ne doit pas oublier qu'une source UV B spécial reptile est impérative, car une tortue en terrarium sans cette source ne reçoit pas la quantité d'UV B vitale pour son métabolisme.
+
+En terrarium la source UV B préférentielle est un tube fluo spécial reptile. Il existe différentes marques et différentes longueurs. Les lampes à décharge et les lampes à vapeur de mercure sont à réserver à l'usage en grands enclos intérieurs et non en terrarium. En revanche leur utilisation dans des aquariums est judicieuse.
+
+L'indice UV B du tube fluo utilisé doit être adapté au climat d'origine de l'espèce considérée. Plexiglas est la dénomination commerciale d'un matériau bien précis, mais le terme est utilisé à tort pour d'autres matériaux (comme "Frigo", "Mobylette", "Criterium") de qualités très inégales suivant leur composition. Le plexiglas est un matériau excellent pour concevoir des terrariums beaucoup plus légers et tout aussi solides qu'en verre. Travailler le "plexiglas" est plus facile que travailler le verre.
+
+Dernière conclusion, mais la plus importante :
+La durée de vie d'une tortue comme de tout autre animal ne dépend que d'un seul critère :
+l'attention que vous portez à ses soins quotidiens !

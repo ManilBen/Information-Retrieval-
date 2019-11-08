@@ -1,0 +1,48 @@
+Newsletter Apprendre Laravel #5
+Envoyée le 11 février 2019
+
+Après une semaine de vacances, je reviens avec la 5e newsletter d'Apprendre Laravel. Bientôt 100 personnes inscrites : merci à tous !
+
+Bibliothèque
+Caleb Porzio a publié un article de blog très intéressant (http://calebporzio.com/11-awesome-laravel-helper-functions/) où il montre quelques fonctions PHP qu'il ajoute à chacun de ses projets pour l'aider dans le développement. Il vient également de mettre toutes ces fonctions dans une bibliothèque PHP que l'on peut installer avec Composer : Awesome Helpers https://github.com/calebporzio/awesome-helpers.
+
+Dans mes applications, j'ajoute souvent la fonction carbon() qui permet de rapidement créer une date à partir d'une chaîne de caractère. Contrairement à Caleb, j'ajoute également un second paramètre qui me permet de passer un format de date si ma chaîne de caractère n'est pas dans un format standard. Par exemple : carbon('2019-02-11') ou carbon('11/02/2019', 'd/m/Y'). N'oubliez pas que depuis Laravel 5.7, vous pouvez utiliser les fonction now() et today() pour récupérer facilement la date du jour.
+
+J'ai aussi la fonction user() pour rapidement récupérer l'utilisateur connecté même si je n'utilise pas cette terminologie. Pour les personnes parlant anglais, j'avais écrit un article il y a un petit moment (https://thibaud.dauce.fr/posts/2017-07-18-your-app-doesnt-have-users.html) expliquant qu'il est préférable de ne pas utiliser le terme "user" qui est assez vague. Dans mes applications par exemple, j'utilise student(), customer() ou encore admin() en fonction du besoin.
+
+Pour ce genre de fonctions, il est souvent plus rapide de les ajouter soi-même dans un fichier de notre application plutôt que de dépendre d'une bibliothèque externe. Vous allez perdre quelques minutes à écrire la fonction mais vous gagnerez en flexibilité en pouvant modifier directement les paramètres pour coller au mieux à vos besoins (voir mes modifications plus haut). La bibliothèque de Caleb est néanmoins utile pour avoir des idées.
+
+De plus, je profite de cette bibliothèque pour revenir sur une incompréhension que je vois souvent dans les projets Laravel : l'utilisation de la fonction PHP function_exists(). Si l'on regarde le code source de Laravel, on remarque qu'ils utilisent cette fonction à chaque helper https://github.com/laravel/framework/blob/5.7/src/Illuminate/Support/helpers.php alors que Caleb ne l'utilise pas dans ses helpers https://github.com/calebporzio/awesome-helpers/blob/master/src/helpers/user.php. Pourquoi ?
+
+À mon avis, c'est une erreur de la part de Caleb. Lorsque vous développez une bibliothèque, il faut toujours que les nouvelles fonctions que vous créez soient imbriquées dans un appel à function_exists(). Si votre utilisateur·rice a déjà une fonction du même nom, sa fonction sera donc prioritaire. Alors que si vous n'imbriquez pas votre déclaration de fonction dans un appel à function_exists(), l'utilisateur·rice aura une erreur « deux fonctions ont le même nom », il devra soit ne pas utiliser votre bibliothèque, soit renommer sa fonction.
+
+Cette première explication était pour le développement de bibliothèques. Par contre, dans votre code personnel, vous n'avez pas besoin d'utiliser function_exists(). Si vous le faites et si vous incluez une bibliothèque externe, la fonction de la bibliothèque pourrait prendre le dessus sur votre fonction. Votre fonction ne serait alors pas créée et votre code deviendra inutile. Dans ce cas, il est préférable d'avoir une erreur et de renommer ou supprimer sa fonction, ou encore modifier l'ordre d'importation de cette bibliothèque afin que votre fonction soit prioritaire sur la leur.
+
+Mise à jour
+Taylor a annoncé deux changements importants pour la version 5.8.
+
+Le premier est le passage aux secondes à la place des minutes pour définir la durée du cache. Avec Laravel 5.7, vous pouvez mettre en cache une valeur pendant 5 minutes avec cache()->put('nom', 'Thibaud', 5). Avec Laravel 5.8, le même code ne mettra en cache que pendant 5 secondes. Vous pouvez dès à présent mettre à jour votre code en utilisant des dates Carbon, bien plus lisibles, cache()->put('nom', 'Thibaud', now()->addMinutes(5)). Avec ce changement (qui fonctionne avec Laravel 5.7), vous n'aurez rien à changer lors du passage à la 5.8.
+
+Taylor souhaite également supprimer les helpers des chaînes de caractères et des tableaux du cœur de Laravel. Ils seront donc marqués comme dépréciés en Laravel 5.8 et éventuellement supprimés en Laravel 5.9. Il sera toujours possible d'utiliser les classes Str et Arr ou alors d'ajouter une bibliothèque externe officielle qui rétablira les fonctions. Comme vous avez pu le voir dans la plupart de mes tutoriels, je préfère utiliser les fonctions aux facades car oublier d'importer une classe est sans doute l'erreur que je fais le plus souvent et qui me fait perdre beaucoup de temps (et qu'il n'y a pas ce problème avec les fonctions). Ce changement ne me plaît donc pas beaucoup, mais si la bibliothèque officielle conserve le fonctionnement actuel cela me va. :-)
+
+Citations
+Deux citations cette semaine pour le prix d'une (ou même de zéro vu que c'est gratuit ^^).
+
+Mohamaid Said sur Twitter explique qu'il ne croit pas au dicton « il ne faut pas réinventer la roue ». En informatique, chaque problème est unique, peu de gens ont des problèmes strictement identique et le fait de réinventer la roue permet d'avoir une plus grande flexibilité dans notre travail. Au lieu d'essayer de faire rentrer tous les besoins de notre client dans la case Wordpress par exemple, il est possible de développer très rapidement un site avec Laravel bien plus ergonomique, plus rapide et plus évolutif. De plus, le fait de réinventer la roue, dans une industrie assez jeune comme l'informatique, permet aussi de créer une roue plus efficace pour les prochaines personnes (comme l'arrivée de Laravel sur le marché des frameworks PHP alors que Symfony était bien en place et efficace pour le travail qu'on lui demandait).
+
+https://twitter.com/themsaid/status/1048884782061572098
+
+Deuxième citation de Jeffrey Way qui revient sur son expérience avec le Test Driven Development. Le Test Driven Development est le concept d'écrire les tests avant d'écrire le code et de ne jamais écrire une seule ligne de code sans avoir un test en échec qui le nécessite. Cette pratique demande une certaine rigueur, mais elle permet d'avoir une confiance exceptionnelle dans son application et de pouvoir faire des changements par la suite sans craindre de tout casser. Je suis un adepte du TDD (comme vous avez pu le voir dans mes séries Développement Laravel et E-Commerce sur YouTube) mais je dois aussi avouer que j'ai du mal à m'y tenir dans mon travail de tous les jours. Et pourtant, je suis persuadé que c'est la bonne pratique à avoir. En tout cas, si vous y arrivez (même sur 10 % de votre code), vous ne le regretterez pas :-)
+
+https://twitter.com/jeffrey_way/status/1094997612191731712
+
+Apprendre Laravel
+J'ai publié les newsletters des semaines précédentes sur https://www.apprendre-laravel.fr/newsletters, vous pouvez donc maintenant les consulter une semaine après leur date d'envoi (pour laisser la primeur aux inscrit·e·s à la newsletter). Si vous ne souhaitez pas que je garde votre adresse mail, vous pouvez aussi me demander de vous supprimer de la liste et vous abonner au flux RSS de la newsletter, vous recevrez ainsi le contenu dans votre agrégateur de flux le même jour que l'envoi du mail, et même un peu avant.
+
+Vous avez peut-être également remarqué que le design de la newsletter n'est plus le même. Avec la centaine d'inscrit·e·s qui approche, j'ai décidé de ne plus utiliser mon compte personnel avec Thunderbird et d'envoyer les mails directement via mon serveur web avec Laravel. Je n'ai pas choisi d'utiliser un service tiers comme Mailchimp, car je ne souhaite pas espionner les taux de lecture de la newsletter, les clics des liens, ni envoyer vos emails sur une plateforme externe. J'espère que les différents filtres anti-spam des fournisseurs de mail ne seront pas trop méchants avec vous :-) La seule chose que je vous demande, c'est que si vous ne souhaitez plus lire cette newsletter, envoyez-moi un mail pour vous désinscrire au lieu de marquer le mail en spam, cela évitera de pénaliser les autres lecteur·ice·s.
+
+Le meilleur moyen d'être sûr de recevoir la newsletter est encore de s'abonner via un flux RSS, si vous ne savez pas comment faire, vous pouvez m'envoyer un message pour que je vous explique le concept (mais j'essayerais d'écrire un article sur le sujet également). Vous pouvez également m'ajouter dans mon carnet d'adresses, j'ai toujours entendu que ça aidait, mais c'est peut-être une légende urbaine ;-)
+
+Bonne semaine,
+
+Thibaud

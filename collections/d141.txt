@@ -1,0 +1,7 @@
+La relativité générale est d'abord une généralisation aux référentiels accélérés des principes de la théorie de la relativité restreinte.
+
+Elle apporte cependant de plus une nouvelle conception de l'espace et du temps, dans laquelle la gravitation devient une propriété géométrique de l'espace-temps (qui possède une structure d'espace riemannien). En d'autres termes, la géométrie de l'espace-temps dépend de la distribution des masses et, du fait de l'équivalence masse-énergie, des flux d'énergie.
+
+Les premières tests expérimentaux de la relativité générale datent du début des années 1920 (courbure des rayons lumineux par un champ de gravitation testée près du Soleil, précession du périhélie de Mercure), mais la théorie a passé aujourd'hui de nombreux autres tests avec succès, l'un des plus précis étant la preuve de l'existence des ondes gravitationnelles (prévues par la relativité générale) grâce à l'observation minutieuse de l'évolution d'un pulsar binaire par Taylor et Hulse (Prix Nobel 1993).
+
+Parmi les conséquences les plus célèbres de la relativité générale, on peut citer l'existence des trous noirs (cf les travaux de Schwarzschild) l'expansion de l'Univers, etc, l'application de cette théorie à l'astrophysique et à la cosmologie s'étant avérée particulièrement fructueuse.

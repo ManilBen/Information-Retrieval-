@@ -1,0 +1,8 @@
+On désigne par le terme de « lumière visible » le spectre du rayonnement électromagnétique perceptible par l'œil humain.
+
+La lumière blanche
+Les longueurs d’ondes de la lumière visible s'échelonnent d'environ 380 nm (violet) à 780 nm (rouge). Le spectre visible est obtenu par décomposition de la lumière blanche par un prisme. Les caractéristiques et les propriétés de la lumière sont étudiées dans le cadre de l'optique.
+
+Vitesse de la lumière
+La lumière se propage dans le vide ainsi que dans la matière ; sa vitesse de propagation dépendant du milieu dans lequel elle se déplace. Dans le vide, la lumière se propage à la vitesse c de 3.108 m.s-1., c'est-à-dire 300.000.000 mètres par seconde, ou encore 300.000 kilomètres par seconde. La vitesse de la lumière dans le vide est l'une des constantes fondamentales de la physique.
+
